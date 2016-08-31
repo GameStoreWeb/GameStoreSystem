@@ -2,6 +2,11 @@ package com.gss.entity;
 
 import java.util.Date;
 
+/**
+ * @author Joker
+ * 商品评论类，有以下属性：
+ * 评论号、客户名、商品ID、评论内容、评论日期
+ */
 public class GoodsComment {
 	private String cId;
 	private String cUser;
@@ -52,6 +57,12 @@ public class GoodsComment {
 	}
 	public void setcDate(Date cDate) {
 		this.cDate = cDate;
+	}
+
+	@Override
+	public String toString() {
+		return "GoodsComment [cId=" + cId + ", cUser=" + cUser + ", cGoodId="
+				+ cGoodId + ", cDetail=" + cDetail + ", cDate=" + cDate + "]";
 	}
 	
 	

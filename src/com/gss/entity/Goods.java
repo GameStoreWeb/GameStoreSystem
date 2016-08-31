@@ -3,6 +3,12 @@ package com.gss.entity;
 import java.awt.Image;
 import java.util.List;
 
+/**
+ * @author Joker
+ * 商品类，包含以下属性：
+ * 商品Id、商品名、商品类别、简介、优惠、
+ * 规格、单价、商家、图片、销售量和评论
+ */
 public class Goods {
 	private String gId;
 	private String gName;
@@ -102,6 +108,16 @@ public class Goods {
 	}
 	public void setComments(GoodsComment comments) {
 		this.comments = comments;
+	}
+
+	@Override
+	public String toString() {
+		return "Goods [gId=" + gId + ", gName=" + gName + ", gCategory="
+				+ gCategory + ", gDetail=" + gDetail + ", gDiscount="
+				+ gDiscount + ", gStandard=" + gStandard + ", gPrice=" + gPrice
+				+ ", gSeller=" + gSeller + ", gPicture=" + gPicture
+				+ ", gSalesvolume=" + gSalesvolume + ", comments=" + comments
+				+ "]";
 	}
 	
 	

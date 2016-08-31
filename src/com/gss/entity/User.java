@@ -1,5 +1,9 @@
 package com.gss.entity;
 
+/**
+ * @author Joker
+ * ”√ªß¿‡
+ */
 public class User {
 	private String uId;
 	private String uPwd;
@@ -58,6 +62,13 @@ public class User {
 	}
 	public void setuTelephone(String uTelephone) {
 		this.uTelephone = uTelephone;
+	}
+
+	@Override
+	public String toString() {
+		return "User [uId=" + uId + ", uPwd=" + uPwd + ", uLoginName="
+				+ uLoginName + ", uSex=" + uSex + ", uName=" + uName
+				+ ", uTelephone=" + uTelephone + "]";
 	}
 	
 	

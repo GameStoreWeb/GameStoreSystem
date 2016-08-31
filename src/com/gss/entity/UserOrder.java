@@ -3,6 +3,12 @@ package com.gss.entity;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author Joker
+ * 用户订单类，包含以下属性：
+ * 订单ID、用户ID、收货地址、订单日期、
+ * 是否发货、订单总额、发货日期、是否发货、购买商品
+ */
 public class UserOrder {
 	private String oId;
 	private String sId;
@@ -86,6 +92,15 @@ public class UserOrder {
 	}
 	public void setGoodsItem(List<Goods> goodsItem) {
 		this.goodsItem = goodsItem;
+	}
+
+	@Override
+	public String toString() {
+		return "UserOrder [oId=" + oId + ", sId=" + sId + ", oAddress="
+				+ oAddress + ", startDate=" + startDate + ", oIsTake="
+				+ oIsTake + ", oTotal=" + oTotal + ", oDeliverDate="
+				+ oDeliverDate + ", oIsDeliver=" + oIsDeliver + ", goodsItem="
+				+ goodsItem + "]";
 	}
 	
 	

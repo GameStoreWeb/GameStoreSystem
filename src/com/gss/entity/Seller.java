@@ -1,5 +1,10 @@
 package com.gss.entity;
 
+/**
+ * @author Joker
+ * 商家类，包含以下属性：
+ * 商家ID、商家名、商家地址、电话、登录密码
+ */
 public class Seller {
 	private String sId;
 	private String sName;
@@ -50,6 +55,12 @@ public class Seller {
 	}
 	public void setsPwd(String sPwd) {
 		this.sPwd = sPwd;
+	}
+
+	@Override
+	public String toString() {
+		return "Seller [sId=" + sId + ", sName=" + sName + ", sAddress="
+				+ sAddress + ", sPhone=" + sPhone + ", sPwd=" + sPwd + "]";
 	}
 	
 	
