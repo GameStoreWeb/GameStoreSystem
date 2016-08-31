@@ -1,0 +1,27 @@
+package com.gss.dao;
+
+import java.util.List;
+
+import com.gss.entity.UserOrder;
+
+public interface OrderManage {
+	/**
+	 * 展示所有订单
+	 * @param id
+	 * @return
+	 */
+	public List<UserOrder> showAllOrders(String id);
+	/**
+	 * 展示单个订单详情
+	 * @param id
+	 * @param orderId
+	 * @return
+	 */
+	public UserOrder showUnitOrder(String id, String orderId);
+	/**
+	 * 取消订单
+	 * @param id
+	 * @param orderId
+	 */
+	public void cancelOrder(String id, String orderId);
+}
