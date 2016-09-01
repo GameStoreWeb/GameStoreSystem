@@ -6,8 +6,9 @@ public interface CartManage {
 	/**
 	 * 添加商品到购物车
 	 * @param goods
+	 * 
 	 */
-	public void addGoods(Goods goods);
+	public void addGoods(String goodsid, String userid, int quantity);
 	/**
 	 * 从购物车删除商品
 	 * @param goodsId
@@ -21,4 +22,12 @@ public interface CartManage {
 	 * @param amount
 	 */
 	public void modifyGoods(String goodsId, String userId, int amount);
+	
+
+	/**
+	 * 获取用户的购物车主键
+	 * @param userid
+	 * @return用户的购物车主键
+	 */
+	public String getCartId(String userid);
 }
