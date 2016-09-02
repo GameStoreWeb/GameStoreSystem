@@ -11,6 +11,8 @@ import java.util.List;
 import com.gss.commons.JdbcUtils;
 import com.gss.commons.Utils;
 import com.gss.dao.OrderManage;
+import com.gss.dao.WarehouseManage;
+import com.gss.entity.Goods;
 import com.gss.entity.UserOrder;
 
 public class OrderManageImpl implements OrderManage {
@@ -112,26 +114,129 @@ public class OrderManageImpl implements OrderManage {
 			rs = statement.executeQuery();
 			
 			while (rs.next()) {
+				UserOrder order = new UserOrder();
+				order.setoId(rs.getString("orderNo"));
+				order.setsId(rs.getString("customerNo"));
+				order.setoAddress(rs.getString("address"));
+				order.setStartDate(new java.util.Date(rs.getDate("orderdate").getTime()));
+				order.setoTotal(rs.getDouble("amount"));
+				order.setoDeliverDate(new java.util.Date(rs.getDate("sendDate").getTime()));
+				order.setoIsDeliver(rs.getBoolean("hasSend"));
+				order.setoIsTake(rs.getBoolean("hasReceive"));
 				
+				userOrders.add(order);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return null;
+		//查询订单详情
+		String sql2 = "select * from orderdetails where orderNo = ?";
+		try {
+			statement = connection.prepareStatement(sql2);
+			List<Goods> goods = new ArrayList<Goods>();
+			List<Integer> quantity = new ArrayList<Integer>();
+			for (UserOrder userOrder : userOrders) {
+				statement.setString(1, userOrder.getoId());
+				rs = statement.executeQuery();
+				
+				while (rs.next()) {
+					WarehouseManage wm = new WarehouseManageImpl();
+					Goods good = wm.findGoodsById(rs.getInt("productNo"));
+					goods.add(good);
+					quantity.add(rs.getInt("quantity"));
+				}
+				userOrder.setGoodsItem(goods);
+				userOrder.setGoodsQuantity(quantity);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, rs);
+		}
+		return userOrders;
 	}
 
 	@Override
 	public UserOrder showUnitOrder(String id, String orderId) {
 		// TODO Auto-generated method stub
+		UserOrder order = new UserOrder();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		connection = JdbcUtils.getConn();
+		//查询订单表
+		String sql = "select * from order where customerNo = ?";
+		try {
+			statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, id);
+			rs = statement.executeQuery();
+			
+			while (rs.next()) {
+				order.setoId(rs.getString("orderNo"));
+				order.setsId(rs.getString("customerNo"));
+				order.setoAddress(rs.getString("address"));
+				order.setStartDate(new java.util.Date(rs.getDate("orderdate").getTime()));
+				order.setoTotal(rs.getDouble("amount"));
+				order.setoDeliverDate(new java.util.Date(rs.getDate("sendDate").getTime()));
+				order.setoIsDeliver(rs.getBoolean("hasSend"));
+				order.setoIsTake(rs.getBoolean("hasReceive"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//查询订单详情
+		String sql2 = "select * from orderdetails where orderNo = ?";
+		try {
+			statement = connection.prepareStatement(sql2);
+			statement.setString(1, order.getoId());
+			
+			rs = statement.executeQuery();
+			List<Goods> goods = new ArrayList<Goods>();
+			List<Integer> quantity = new ArrayList<Integer>();
+			while (rs.next()) {
+				WarehouseManage wm = new WarehouseManageImpl();
+				Goods good = wm.findGoodsById(rs.getInt("productNo"));
+				goods.add(good);
+				quantity.add(rs.getInt("quantity"));
+			}
+			order.setGoodsItem(goods);
+			order.setGoodsQuantity(quantity);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, rs);
+		}
+		
 		return null;
 	}
 
 	@Override
 	public void cancelOrder(String id, String orderId) {
 		// TODO Auto-generated method stub
-
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		connection = JdbcUtils.getConn();
+		
+		//更新订单内容，设置isDeliver=false，isTake=true表示订单已取消
+		String sql = "update order set hasSend = 0, hasReceive = 1";
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, null);
+		}
 	}
 
 }
