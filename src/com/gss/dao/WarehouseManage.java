@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.gss.entity.Goods;
 import com.gss.entity.SellerOrder;
-import com.gss.entity.UserOrder;
 
 public interface WarehouseManage {
 	/**
@@ -18,33 +17,33 @@ public interface WarehouseManage {
 	 * 删除商品
 	 * @param goods
 	 */
-	public void deleteGoods(int goodsid);
+	public void deleteGoods(Goods goods,  String sellerid);
 	
 	/**
 	 * 修改商品
 	 * @param goods
 	 */
-	public void modifyGoods(Goods goods, int sales);
+	public void modifyGoods(Goods goods, String sellerid);
 	
 	
 	/**
 	 * 发货
 	 * @param id
 	 */
-	public void deliverGoods(int orderid);
+	public void deliverGoods(String id,  String sellerid);
 	
 	/**
 	 * 取消订单
 	 * @param id
 	 */
-	public void cancelOrder(int id, int sellerid);
+	public void cancelOrder(String id, String sellerid);
 	
 	/**
 	 * 展示所有订单
 	 * @param id
 	 * @return
 	 */
-	public List<UserOrder> showAllOrder(String id);
+	public SellerOrder showAllOrder(String id);
 	
 	/**
 	 * @param Category
@@ -55,11 +54,10 @@ public interface WarehouseManage {
 	/**
 	 * @param images
 	 */
-	public void newProducting(List<String> images , int productid);
+	public void newProducting(List<String> images , String productid);
 	
 	public Goods findGoodsById(int goodsid);
 	
-//	public String findCategoryById(int id);
-	public int findSellerByOrderId(int id);
+	public String findCategoryById(int id);
 	
 }

@@ -4,17 +4,14 @@ import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.gss.commons.JdbcUtils;
 import com.gss.dao.AccountManage;
-import com.gss.dao.OrderManage;
 import com.gss.dao.WarehouseManage;
 import com.gss.entity.Goods;
 import com.gss.entity.Seller;
 import com.gss.entity.SellerOrder;
-import com.gss.entity.UserOrder;
 
 public class WarehouseManageImpl implements WarehouseManage {
 
@@ -25,19 +22,24 @@ public class WarehouseManageImpl implements WarehouseManage {
 		Connection conn = null;
 		PreparedStatement stat = null;
 		conn = JdbcUtils.getConn();
-		String Categoryid = goods.getgCategory();
+		int Categoryid = findIDByCategoryname(goods.getgCategory());
+		if(Categoryid ==-1) 
+		{
+			newCategory(goods.getgCategory());
+			Categoryid = findIDByCategoryname(goods.getgCategory());
+		}
 		
 		try {
-			String sql = "INSERT INTO product(productName,typeNo,detail,standard,price,producerNo,discount,sales) VALUES(?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO product (productName,typeNo,describe,standard,price,producerNo,discount,sales) VALUES (?,?,?,?,?,?,?,?)";
 			stat = conn.prepareStatement(sql);
 			stat.setString(1, goods.getgName());
-			stat.setString(2, Categoryid);
+			stat.setInt(2, Categoryid);
 			stat.setString(3, goods.getgDetail());
 			stat.setString(4, goods.getgStandard());
-			stat.setDouble(5, goods.getgPrice());			
-			stat.setInt(6, goods.getgSeller().getsId());
-			stat.setFloat(7, goods.getgDiscount());
-			stat.setInt(8, 0);
+			stat.setDouble(5, goods.getgPrice());
+			stat.setString(6, goods.getgSeller());
+			stat.setInt(7, goods.getgPicture());
+			stat.setString(8, cartNo);
 			stat.executeUpdate();
 			
 		} catch (Exception e) {
@@ -50,113 +52,33 @@ public class WarehouseManageImpl implements WarehouseManage {
 	}
 
 	@Override
-	public void deleteGoods(int goodsid) {
-		Connection conn = null;
-		PreparedStatement stat = null;
-		conn = JdbcUtils.getConn();
-			
-		try {
-			String sql = "DELETE FROM product WHERE productNo = ?";
-			stat = conn.prepareStatement(sql);
-			stat.setInt(1, goodsid);
-			stat.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally
-		{
-			JdbcUtils.closeDB(conn, stat, null);
-		}
-		
-	}
-
-
-
-	@Override
-	public void modifyGoods(Goods goods, int sales) {
-		Connection conn = null;
-		PreparedStatement stat = null;
-		conn = JdbcUtils.getConn();
-		String Categoryid = goods.getgCategory();
-		
-		try {
-			String sql = "UPDATE product SET productName = ,typeNo = ?,detail = ?,standard = ?,price = ?,producerNo = ?,discount = ?,sales = ? WHERE productNo = ? ";
-			stat = conn.prepareStatement(sql);
-			stat.setString(1, goods.getgName());
-			stat.setString(2, Categoryid);
-			stat.setString(3, goods.getgDetail());
-			stat.setString(4, goods.getgStandard());
-			stat.setDouble(5, goods.getgPrice());			
-			stat.setInt(6, goods.getgSeller().getsId());
-			stat.setFloat(7, goods.getgDiscount());
-			stat.setInt(8,sales);
-			stat.setInt(9,goods.getgId());
-			
-			stat.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally
-		{
-			JdbcUtils.closeDB(conn, stat, null);
-		}
-		
-	}
-
-
-
-	@Override
-	public void deliverGoods(int orderid) {
-		Connection conn = null;
-		PreparedStatement stat = null;
-		conn = JdbcUtils.getConn();
-		
-		try {
-			String sql = "UPDATE order SET hasSend = ? WHERE orderid = ? ";
-			stat = conn.prepareStatement(sql);
-			stat.setInt(1, 1);
-			stat.setInt(2, orderid);
-			stat.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally
-		{
-			JdbcUtils.closeDB(conn, stat, null);
-		}
-		
-	}
-
-	@Override
-	public void cancelOrder(int id, int sellerid) {
-		Connection conn = null;
-		PreparedStatement stat = null;
-		conn = JdbcUtils.getConn();
-		
-		try {
-			String sql = "UPDATE order SET hasSend = ? AND hasReceive =? WHERE orderid = ? ";
-			stat = conn.prepareStatement(sql);
-			stat.setInt(1, 0);
-			stat.setInt(2, 1);
-			stat.setInt(3, sellerid);
-			stat.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally
-		{
-			JdbcUtils.closeDB(conn, stat, null);
-		}
+	public void deleteGoods(Goods goods, String sellerid) {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public List<UserOrder> showAllOrder(String id) {
-		List<UserOrder> sellerorder = new ArrayList<UserOrder>();
-		
-		OrderManage om = new OrderManageImpl();
-		sellerorder = om.showAllOrders(id);
-		return sellerorder;
+	public void modifyGoods(Goods goods, String sellerid) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void deliverGoods(String id, String sellerid) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void cancelOrder(String id, String sellerid) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public SellerOrder showAllOrder(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -215,7 +137,7 @@ public class WarehouseManageImpl implements WarehouseManage {
 		
 	
 	}
-
+	
 	
 	public void newProducting(List<String> images, int productid) {
 		
@@ -263,8 +185,8 @@ public class WarehouseManageImpl implements WarehouseManage {
 				goods = new Goods();
 				goods.setgId(goodsid);
 				goods.setgName(rs.getString("productName"));
-				goods.setgCategory(rs.getString("typeNo"));
-				goods.setgDetail(rs.getString("detail"));
+				goods.setgCategory(findCategoryById(goodsid));
+				goods.setgDetail(rs.getString("describe"));
 				goods.setgStandard(rs.getString("standard"));
 				goods.setgPrice(rs.getDouble("price"));
 				AccountManage am = new SellerLoginManageImpl();
@@ -285,63 +207,22 @@ public class WarehouseManageImpl implements WarehouseManage {
 	}
 	
 	
-//	public String findCategoryById(int id)
-//	{
-//		String  name= null;
-//		Connection conn = null;
-//		PreparedStatement stat = null;
-//		conn = JdbcUtils.getConn();
-//		ResultSet rs = null;
-//		
-//		try {
-//			String sql = "SELECT protypeName FROM protype WHERE protypeNo = ?";
-//			stat = conn.prepareStatement(sql);
-//			stat.setInt(1, id);
-//			rs = stat.executeQuery();
-//			while(rs.next())
-//			{
-//				id = rs.getInt(1);
-//			}
-//		}catch (Exception e)
-//		{
-//			e.printStackTrace();
-//		}finally
-//		{
-//			JdbcUtils.closeDB(conn, stat, rs);
-//		}
-//			
-//		
-//		return name;
-//		
-//	}
-
-
-	public int findSellerByOrderId(int id)
+	public String findCategoryById(int id)
 	{
 		String  name= null;
 		Connection conn = null;
 		PreparedStatement stat = null;
 		conn = JdbcUtils.getConn();
 		ResultSet rs = null;
-		int productid = -1;
-		int sellerid = -1;
+		
 		try {
-			String sql = "SELECT productNo FROM orderdetails WHERE id = ?";
+			String sql = "SELECT protypeName FROM protype WHERE protypeNo = ?";
 			stat = conn.prepareStatement(sql);
-			stat.setInt(1, id);
+			stat.setString(1, id);
 			rs = stat.executeQuery();
 			while(rs.next())
 			{
-				productid = rs.getInt(1);
-			}
-			
-			String sql1 = "SELECT producerNo FROM product WHERE productNo = ?";
-			stat = conn.prepareStatement(sql1);
-			stat.setInt(1, productid);
-			rs = stat.executeQuery();
-			while(rs.next())
-			{
-				sellerid = rs.getInt(1);
+				id = rs.getString(1);
 			}
 		}catch (Exception e)
 		{
@@ -352,10 +233,7 @@ public class WarehouseManageImpl implements WarehouseManage {
 		}
 			
 		
-		return sellerid;
+		return name;
 		
 	}
-
-
-
 }
