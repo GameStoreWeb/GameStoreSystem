@@ -8,7 +8,7 @@ import java.util.List;
  * 商品Id、商品名、商品类别、简介、优惠、
  * 规格、单价、商家、图片、销售量和评论
  */
-public class Goods {
+public class Goods { 
 	private int gId;
 	private String gName;
 	private String gCategory;
