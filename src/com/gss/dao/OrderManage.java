@@ -6,6 +6,11 @@ import com.gss.entity.UserOrder;
 
 public interface OrderManage {
 	/**
+	 * 生成新的订单
+	 * @param order
+	 */
+	public void addOrder(UserOrder order);
+	/**
 	 * 展示所有订单
 	 * @param id
 	 * @return

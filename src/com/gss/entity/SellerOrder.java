@@ -8,7 +8,7 @@ import java.util.List;
  * 商家订单类
  */
 public class SellerOrder {
-	private String sId;
+	private int sId;
 	private String uId;
 	private String oAddres;
 	private String startdate;
@@ -18,7 +18,7 @@ public class SellerOrder {
 	private boolean oIsDeliver;
 	private List<Goods> goodsItem;
 	
-	public SellerOrder(String sId, String uId, String oAddres,
+	public SellerOrder(int sId, String uId, String oAddres,
 			String startdate, boolean oIsTake, double oTotal,
 			Date odeliverDate, boolean oIsDeliver, List<Goods> goodsItem) {
 		super();
@@ -37,10 +37,10 @@ public class SellerOrder {
 		super();
 	}
 
-	public String getsId() {
+	public int getsId() {
 		return sId;
 	}
-	public void setsId(String sId) {
+	public void setsId(int sId) {
 		this.sId = sId;
 	}
 	public String getuId() {

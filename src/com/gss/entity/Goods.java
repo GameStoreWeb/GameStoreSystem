@@ -1,6 +1,5 @@
 package com.gss.entity;
 
-import java.awt.Image;
 import java.util.List;
 
 /**
@@ -10,7 +9,7 @@ import java.util.List;
  * 规格、单价、商家、图片、销售量和评论
  */
 public class Goods {
-	private String gId;
+	private int gId;
 	private String gName;
 	private String gCategory;
 	private String gDetail;
@@ -18,13 +17,13 @@ public class Goods {
 	private String gStandard;
 	private double gPrice;
 	private Seller gSeller;
-	private List<Image> gPicture;
+	private List<String> gPicture;
 	private int gSalesvolume;
 	private GoodsComment comments;
 	
-	public Goods(String gId, String gName, String gCategory, String gDetail,
+	public Goods(int gId, String gName, String gCategory, String gDetail,
 			float gDiscount, String gStandard, double gPrice, Seller gSeller,
-			List<Image> gPicture, int gSalesvolume, GoodsComment comments) {
+			List<String> gPicture, int gSalesvolume, GoodsComment comments) {
 		super();
 		this.gId = gId;
 		this.gName = gName;
@@ -43,10 +42,10 @@ public class Goods {
 		super();
 	}
 
-	public String getgId() {
+	public int getgId() {
 		return gId;
 	}
-	public void setgId(String gId) {
+	public void setgId(int gId) {
 		this.gId = gId;
 	}
 	public String getgName() {
@@ -91,10 +90,10 @@ public class Goods {
 	public void setgSeller(Seller gSeller) {
 		this.gSeller = gSeller;
 	}
-	public List<Image> getgPicture() {
+	public List<String> getgPicture() {
 		return gPicture;
 	}
-	public void setgPicture(List<Image> gPicture) {
+	public void setgPicture(List<String> gPicture) {
 		this.gPicture = gPicture;
 	}
 	public int getgSalesvolume() {

@@ -1,8 +1,6 @@
 package com.gss.dao;
 
-import com.gss.entity.User;
-
-public interface LoginManage {
+public interface AccountManage {
 	/**
 	 * 检查登录
 	 * @param name
@@ -14,7 +12,7 @@ public interface LoginManage {
 	 * 用户注册
 	 * @param user
 	 */
-	public void register(User user);
+	public boolean register(Object object);
 	/**
 	 * 展示个人信息
 	 * @param id
@@ -26,4 +24,10 @@ public interface LoginManage {
 	 * @param object
 	 */
 	public void modifyUnitInfo(Object object);
+	/**
+	 * 删除账户
+	 * @param id
+	 * @return
+	 */
+	public boolean deleteAccount(String id);
 }

@@ -6,13 +6,13 @@ package com.gss.entity;
  * 商家ID、商家名、商家地址、电话、登录密码
  */
 public class Seller {
-	private String sId;
+	private int sId;
 	private String sName;
 	private String sAddress;
 	private String sPhone;
 	private String sPwd;
 	
-	public Seller(String sId, String sName, String sAddress, String sPhone,
+	public Seller(int sId, String sName, String sAddress, String sPhone,
 			String sPwd) {
 		super();
 		this.sId = sId;
@@ -26,10 +26,10 @@ public class Seller {
 		super();
 	}
 
-	public String getsId() {
+	public int getsId() {
 		return sId;
 	}
-	public void setsId(String sId) {
+	public void setsId(int sId) {
 		this.sId = sId;
 	}
 	public String getsName() {

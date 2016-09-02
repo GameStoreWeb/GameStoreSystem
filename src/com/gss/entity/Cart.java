@@ -10,16 +10,26 @@ public class Cart {
 	private String cId;
 	private String cUserId;
 	private List<Goods> goodsItem;
+	private List<Integer> goodsQuantity;
 	
-	public Cart(String cId, String cUserId, List<Goods> goodsItem) {
+	public Cart(String cId, String cUserId, List<Goods> goodsItem, List<Integer> goodsQuantity) {
 		super();
 		this.cId = cId;
 		this.cUserId = cUserId;
 		this.goodsItem = goodsItem;
+		this.goodsQuantity = goodsQuantity;
 	}
 	
 	public Cart() {
 		super();
+	}
+
+	public List<Integer> getGoodsQuantity() {
+		return goodsQuantity;
+	}
+
+	public void setGoodsQuantity(List<Integer> goodsQuantity) {
+		this.goodsQuantity = goodsQuantity;
 	}
 
 	public String getCid() {
@@ -44,8 +54,8 @@ public class Cart {
 	@Override
 	public String toString() {
 		return "Cart [cId=" + cId + ", cUserId=" + cUserId + ", goodsItem="
-				+ goodsItem + "]";
+				+ goodsItem + ", goodsQuantity=" + goodsQuantity + "]";
 	}
-	
+
 	
 }

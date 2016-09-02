@@ -19,10 +19,11 @@ public class UserOrder {
 	private Date oDeliverDate;
 	private boolean oIsDeliver;
 	private List<Goods> goodsItem;
+	private List<Integer> goodsQuantity;
 	
 	public UserOrder(String oId, String sId, String oAddress, Date startDate,
 			boolean oIsTake, double oTotal, Date oDeliverDate,
-			boolean oIsDeliver, List<Goods> goodsItem) {
+			boolean oIsDeliver, List<Goods> goodsItem, List<Integer> goodsQuantity) {
 		super();
 		this.oId = oId;
 		this.sId = sId;
@@ -33,10 +34,19 @@ public class UserOrder {
 		this.oDeliverDate = oDeliverDate;
 		this.oIsDeliver = oIsDeliver;
 		this.goodsItem = goodsItem;
+		this.goodsQuantity = goodsQuantity;
 	}
 	
 	public UserOrder() {
 		super();
+	}
+
+	public List<Integer> getGoodsQuantity() {
+		return goodsQuantity;
+	}
+
+	public void setGoodsQuantity(List<Integer> goodsQuantity) {
+		this.goodsQuantity = goodsQuantity;
 	}
 
 	public String getoId() {
@@ -100,8 +110,8 @@ public class UserOrder {
 				+ oAddress + ", startDate=" + startDate + ", oIsTake="
 				+ oIsTake + ", oTotal=" + oTotal + ", oDeliverDate="
 				+ oDeliverDate + ", oIsDeliver=" + oIsDeliver + ", goodsItem="
-				+ goodsItem + "]";
+				+ goodsItem + ", goodsQuantity=" + goodsQuantity + "]";
 	}
-	
+
 	
 }

@@ -8,13 +8,13 @@ import java.util.Date;
  * 评论号、客户名、商品ID、评论内容、评论日期
  */
 public class GoodsComment {
-	private String cId;
+	private int cId;
 	private String cUser;
 	private String cGoodId;
 	private String cDetail;
 	private Date cDate;
 	
-	public GoodsComment(String cId, String cUser, String cGoodId,
+	public GoodsComment(int cId, String cUser, String cGoodId,
 			String cDetail, Date cDate) {
 		super();
 		this.cId = cId;
@@ -28,10 +28,10 @@ public class GoodsComment {
 		super();
 	}
 
-	public String getcId() {
+	public int getcId() {
 		return cId;
 	}
-	public void setcId(String cId) {
+	public void setcId(int cId) {
 		this.cId = cId;
 	}
 	public String getcUser() {
