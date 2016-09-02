@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class JdbcUtils {
-	private static String url = "jdbc:mysql://127.0.0.1:3306/e-commerce";
+	private static String url = "jdbc:mysql://10.8.12.189:3306/e-commerce";
 	private static String user = "root";
 	private static String password = "root";
 	
+
 	public static Connection getConn(){
 		Connection conn = null;
 		try {
