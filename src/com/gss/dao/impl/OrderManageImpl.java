@@ -13,6 +13,7 @@ import com.gss.commons.Utils;
 import com.gss.dao.OrderManage;
 import com.gss.dao.WarehouseManage;
 import com.gss.entity.Goods;
+import com.gss.entity.GoodsComment;
 import com.gss.entity.UserOrder;
 
 public class OrderManageImpl implements OrderManage {
@@ -215,7 +216,7 @@ public class OrderManageImpl implements OrderManage {
 			JdbcUtils.closeDB(connection, statement, rs);
 		}
 		
-		return null;
+		return order;
 	}
 
 	@Override
@@ -238,5 +239,107 @@ public class OrderManageImpl implements OrderManage {
 			JdbcUtils.closeDB(connection, statement, null);
 		}
 	}
+
+	@Override
+	public List<UserOrder> findOrdersByKw(String id, String keyword) {
+		// TODO Auto-generated method stub
+		List<UserOrder> userOrders = new ArrayList<UserOrder>();
+		List<String> list = new ArrayList<String>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		connection = JdbcUtils.getConn();
+		//°´¹Ø¼ü×ÖËÑË÷¶©µ¥
+		String sql = "select orderNo from orderdetails where productNo in (select productNo from product where productName like ? or (select producerName from producer where producerNo = product.producerNo) like ?)";
+		try {
+			statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, "%" + keyword + "%");
+			statement.setString(2, "%" + keyword + "%");
+			rs = statement.executeQuery();
+			
+			while (rs.next()) {
+				list.add(rs.getString("orderNo"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, rs);
+		}
+		
+		OrderManage om = new OrderManageImpl();
+		for (String string : list) {
+			UserOrder order = (UserOrder)om.showUnitOrder(id, string);
+			userOrders.add(order);
+		}
+		return userOrders;
+	}
+
+	@Override
+	public boolean addComment(GoodsComment comment) {
+		// TODO Auto-generated method stub
+		boolean flag = true;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		connection = JdbcUtils.getConn();
+		String sql = "insert into review(customerNo, productNo, reviewContent, reviewdate) values(?, ?, ?, ?)";
+		
+		try {
+			statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, comment.getcUser());
+			statement.setInt(2, comment.getcGoodId());
+			statement.setString(3, comment.getcDetail());
+			statement.setDate(4, new Date(comment.getcDate().getTime()));
+			
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, null);
+		}
+		return flag;
+	}
+
+	@Override
+	public List<GoodsComment> findComments(int goodsId) {
+		// TODO Auto-generated method stub
+		List<GoodsComment> comments = new ArrayList<GoodsComment>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		connection = JdbcUtils.getConn();
+		String sql = "select * from review where productNo = ?";
+		try {
+			statement = connection.prepareStatement(sql);
+			
+			statement.setInt(1, goodsId);
+			rs = statement.executeQuery();
+			
+			while (rs.next()) {
+				GoodsComment comment = new GoodsComment();
+				comment.setcId(rs.getInt("reviewNo"));
+				comment.setcGoodId(goodsId);
+				comment.setcUser(rs.getString("customerNo"));
+				comment.setcDetail(rs.getString("reviewContent"));
+				comment.setcDate(new java.util.Date(rs.getDate("reviewdate").getTime()));
+				
+				comments.add(comment);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, rs);
+		}
+		return comments;
+	}
+	
+	
 
 }

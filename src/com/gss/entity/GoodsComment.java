@@ -10,11 +10,11 @@ import java.util.Date;
 public class GoodsComment {
 	private int cId;
 	private String cUser;
-	private String cGoodId;
+	private int cGoodId;
 	private String cDetail;
 	private Date cDate;
 	
-	public GoodsComment(int cId, String cUser, String cGoodId,
+	public GoodsComment(int cId, String cUser, int cGoodId,
 			String cDetail, Date cDate) {
 		super();
 		this.cId = cId;
@@ -40,10 +40,10 @@ public class GoodsComment {
 	public void setcUser(String cUser) {
 		this.cUser = cUser;
 	}
-	public String getcGoodId() {
+	public int getcGoodId() {
 		return cGoodId;
 	}
-	public void setcGoodId(String cGoodId) {
+	public void setcGoodId(int cGoodId) {
 		this.cGoodId = cGoodId;
 	}
 	public String getcDetail() {
