@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.util.List;
 
 import com.gss.commons.JdbcUtils;
+import com.gss.dao.AccountManage;
 import com.gss.dao.WarehouseManage;
 import com.gss.entity.Goods;
+import com.gss.entity.Seller;
 import com.gss.entity.SellerOrder;
 
 public class WarehouseManageImpl implements WarehouseManage {
@@ -28,17 +30,16 @@ public class WarehouseManageImpl implements WarehouseManage {
 		}
 		
 		try {
-			String sql = "INSERT INTO product (productName,typeNo,describe,standard,price,producerNo,image,discount,sales) VALUES (?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO product (productName,typeNo,describe,standard,price,producerNo,discount,sales) VALUES (?,?,?,?,?,?,?,?)";
 			stat = conn.prepareStatement(sql);
 			stat.setString(1, goods.getgName());
 			stat.setInt(2, Categoryid);
 			stat.setString(3, goods.getgDetail());
 			stat.setString(4, goods.getgStandard());
 			stat.setDouble(5, goods.getgPrice());
-			stat.setString(6, sellerid);
+			stat.setString(6, goods.getgSeller());
 			stat.setInt(7, goods.getgPicture());
 			stat.setString(8, cartNo);
-			stat.setString(9, goodsId);
 			stat.executeUpdate();
 			
 		} catch (Exception e) {
@@ -138,22 +139,23 @@ public class WarehouseManageImpl implements WarehouseManage {
 	}
 	
 	
-	public void newProducting(List<Image> images) {
+	public void newProducting(List<String> images, int productid) {
 		
 		Connection conn = null;
 		PreparedStatement stat = null;
 		conn = JdbcUtils.getConn();
-		
 		try {
-			String sql = "INSERT INTO productimg (smallImg,bigImg1,bigImg2,bigImg3,bigImg) VALUES(?,?,?,?,?)";
+			String sql = "INSERT INTO productimg (smallImg,bigImg1,bigImg2,bigImg3,bigImg,productNo) VALUES(?,?,?,?,?,?)";
 			stat = conn.prepareStatement(sql);
-			stat.setString(1, images.get(0).);
-			stat.setString(2, Category);
-			stat.setString(3, Category);
-			stat.setString(4, Category);
-			stat.setString(5, Category);
-			stat.executeUpdate();
-		
+			stat.setString(1, images.get(0));
+			stat.setString(2, images.get(1));
+			stat.setString(3, images.get(2));
+			stat.setString(4, images.get(3));
+			stat.setString(5, images.get(4));
+			stat.setInt(6, productid);
+			stat.executeUpdate();		
+					
+			
 		}catch (Exception e)
 		{
 			e.printStackTrace();
@@ -162,7 +164,76 @@ public class WarehouseManageImpl implements WarehouseManage {
 			JdbcUtils.closeDB(conn, stat, null);
 		}
 			
-		
 	
+	}
+
+	@Override
+	public Goods findGoodsById(int goodsid) {
+		Connection conn = null;
+		PreparedStatement stat = null;
+		conn = JdbcUtils.getConn();
+		ResultSet rs = null;
+		Goods goods = null;
+		
+		try {
+			String sql = "SELECT * FROM product WHERE productNo = ?";
+			stat = conn.prepareStatement(sql);
+			stat.setInt(1, goodsid);
+			rs = stat.executeQuery();	
+			while(rs.next())
+			{
+				goods = new Goods();
+				goods.setgId(goodsid);
+				goods.setgName(rs.getString("productName"));
+				goods.setgCategory(findCategoryById(goodsid));
+				goods.setgDetail(rs.getString("describe"));
+				goods.setgStandard(rs.getString("standard"));
+				goods.setgPrice(rs.getDouble("price"));
+				AccountManage am = new SellerLoginManageImpl();
+				Object object = am.showUnitInfo("" + rs.getInt("producerNo"));
+				goods.setgSeller((Seller)object);
+				goods.setgDiscount(rs.getFloat("discount"));
+				goods.setgSalesvolume(rs.getInt("sales"));
+			}
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			JdbcUtils.closeDB(conn, stat, rs);
+		}
+			
+		return goods;
+	}
+	
+	
+	public String findCategoryById(int id)
+	{
+		String  name= null;
+		Connection conn = null;
+		PreparedStatement stat = null;
+		conn = JdbcUtils.getConn();
+		ResultSet rs = null;
+		
+		try {
+			String sql = "SELECT protypeName FROM protype WHERE protypeNo = ?";
+			stat = conn.prepareStatement(sql);
+			stat.setString(1, id);
+			rs = stat.executeQuery();
+			while(rs.next())
+			{
+				id = rs.getString(1);
+			}
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			JdbcUtils.closeDB(conn, stat, rs);
+		}
+			
+		
+		return name;
+		
 	}
 }

@@ -54,6 +54,10 @@ public interface WarehouseManage {
 	/**
 	 * @param images
 	 */
-	public void newProducting(List<Image> images);
+	public void newProducting(List<String> images , String productid);
+	
+	public Goods findGoodsById(int goodsid);
+	
+	public String findCategoryById(int id);
 	
 }
