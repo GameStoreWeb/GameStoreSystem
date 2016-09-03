@@ -1,7 +1,13 @@
+<%@page import="com.gss.entity.Goods"%>
+<%@page import="com.gss.dao.impl.WarehouseManageImpl"%>
+<%@page import="com.gss.dao.WarehouseManage"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+
+WarehouseManage wm = new WarehouseManageImpl();
+List<Goods> goods = wm.showAllGoods();
+
+
 %>
 <%@ taglib  prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -23,7 +29,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--fonts-->
 <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <!--//fonts-->
-
+	
 </head>
 <body> 
 <!--header-->
@@ -97,13 +103,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="product-grids">
 	<div class="container">
 	<div class="product-top">
-	<c:forEach var = "i" begin = "1" end = "5">
+	<c:forEach items = "<%=goods%>" var = "good">
 	<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr.png" alt=""></a>		
+		<div class=" product-grid"  >	
+			<a href="single.html"><img  class="img-responsive "  src ="${good.gPicture[0]}"  style="width:320px;height:180px;" alt=""></a>		
 			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
+				<h6><a href="single.html">${good.gName}</a></h6>
+				<label>￥${good.gPrice}</label>
 				<a href="single.html" class="store">FIND A STORE</a>
 			</div>
 			

@@ -11,6 +11,7 @@ import java.util.List;
 import com.gss.commons.JdbcUtils;
 import com.gss.commons.Utils;
 import com.gss.dao.AccountManage;
+import com.gss.dao.OrderManage;
 import com.gss.dao.WarehouseManage;
 import com.gss.entity.Goods;
 import com.gss.entity.Seller;
@@ -333,9 +334,12 @@ public class WarehouseManageImpl implements WarehouseManage {
 	}
 
 	@Override
-	public UserOrder showAllOrder(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UserOrder> showAllOrder(int id) {
+		
+		List<UserOrder> userorders= new ArrayList<UserOrder>();
+		OrderManage om = new OrderManageImpl();
+		userorders = om.showAllOrders(""+id);
+		return userorders;
 	}
 	
 	/**
@@ -409,6 +413,80 @@ public class WarehouseManageImpl implements WarehouseManage {
 			goods.add(good);
 		}
 		return goods;
+	}
+
+	@Override
+	public List<Goods> showAllGoods() {
+		List<Goods> goods = new ArrayList<Goods>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		connection = JdbcUtils.getConn();
+
+
+		
+	    String sql = "select * from product";
+		try {
+					statement = connection.prepareStatement(sql);
+					rs = statement.executeQuery();
+					
+					while (rs.next()) {
+						Goods good = new Goods();
+						int productno = rs.getInt("productNo");
+						good.setgId(productno);
+						good.setgName(rs.getString("productName"));
+						good.setgCategory(rs.getString("typeNo"));
+						good.setgDetail(rs.getString("detail"));
+						good.setgStandard(rs.getString("standard"));
+						good.setgPrice(rs.getDouble("price"));
+						AccountManage am = new SellerLoginManageImpl();
+						good.setgSeller((Seller)am.showUnitInfo(""+rs.getInt("producerNo")));
+						good.setgDiscount(rs.getFloat("discount"));
+						good.setgSalesvolume(rs.getInt("sales"));;
+						
+						List<String> images = showAllGoodsImage(productno);
+						good.setgPicture(images);						
+						goods.add(good);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					
+		return goods;
+	}
+
+	@Override
+	public List<String> showAllGoodsImage(int goodid) {
+		List<String> images = new ArrayList<String>();
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		connection = JdbcUtils.getConn();
+
+	    String sql = "select * from productimg WHERE productNo = ? ";
+		try {
+					statement = connection.prepareStatement(sql);
+					statement.setInt(1, goodid);
+					rs = statement.executeQuery();
+					
+					
+					while (rs.next()) {
+						images.add(rs.getString("smallImg"));
+						images.add(rs.getString("bigImg"));
+						images.add(rs.getString("bigImg1"));
+						images.add(rs.getString("bigImg2"));
+						images.add(rs.getString("bigImg3"));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+					
+		
+		return images;
 	}
 	
 }

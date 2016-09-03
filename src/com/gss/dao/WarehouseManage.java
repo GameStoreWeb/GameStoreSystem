@@ -42,7 +42,7 @@ public interface WarehouseManage {
 	 * @param id
 	 * @return
 	 */
-	public UserOrder showAllOrder(int id);
+	public List<UserOrder> showAllOrder(int id);
 	
 	/**
 	 * @param Category
@@ -75,5 +75,19 @@ public interface WarehouseManage {
 	 * @return
 	 */
 	public List<Goods> findGoodsByKw(String keyword);
+	
+	
+	/**
+	 * 展示所有商品
+	 * @return
+	 */
+	public List<Goods> showAllGoods();
+	
+	/**
+	 * 搜索商品的所有图片
+	 * @param goodid
+	 * @return
+	 */
+	public List<String> showAllGoodsImage(int goodid);
 	
 }
