@@ -6,14 +6,13 @@ import java.sql.ResultSet;
 
 import com.gss.commons.JdbcUtils;
 import com.gss.dao.CartManage;
-import com.gss.entity.Goods;
 
 
 public class CartManageImpl implements CartManage {
 
 	@SuppressWarnings("resource")
 	@Override
-	public void addGoods(String goodsid, String userid, int quantity) {
+	public void addGoods(int goodsid, String userid, int quantity) {
 		Connection conn = null;
 		PreparedStatement stat = null;
 		conn = JdbcUtils.getConn();
@@ -25,7 +24,7 @@ public class CartManageImpl implements CartManage {
 	
 			String sql = "SELECT id FROM cartdetails WHERE productNo=?";
 			stat = conn.prepareStatement(sql);
-			stat.setString(1, goodsid);
+			stat.setInt(1, goodsid);
 			rs = stat.executeQuery();
 			while(rs.next())
 			{
@@ -36,7 +35,7 @@ public class CartManageImpl implements CartManage {
 				String sql2 = "INSERT INTO cartdetails (cartNo, productNo,quantity) VALUES (?, ?,?)";
 				stat = conn.prepareStatement(sql2);
 				stat.setString(1, cartNo);
-				stat.setString(2, goodsid);
+				stat.setInt(2, goodsid);
 				stat.setInt(3, quantity);
 				stat.executeUpdate();
 			}
@@ -66,7 +65,7 @@ public class CartManageImpl implements CartManage {
 	}
 
 	@Override
-	public void deleteGoods(String goodsId, String userId) {
+	public void deleteGoods(int goodsId, String userId) {
 		Connection conn = null;
 		PreparedStatement stat = null;
 		conn = JdbcUtils.getConn();
@@ -75,7 +74,7 @@ public class CartManageImpl implements CartManage {
 		try {
 			String sql = "DELETE FROM cartdetails WHERE productNo = ? AND cartNo = ?";
 			stat = conn.prepareStatement(sql);
-			stat.setString(1, goodsId);
+			stat.setInt(1, goodsId);
 			stat.setString(2, cartNo);
 			stat.executeUpdate();
 			
@@ -90,7 +89,7 @@ public class CartManageImpl implements CartManage {
 	}
 
 	@Override
-	public void modifyGoods(String goodsId, String userId, int amount) {
+	public void modifyGoods(int goodsId, String userId, int amount) {
 		Connection conn = null;
 		PreparedStatement stat = null;
 		conn = JdbcUtils.getConn();
@@ -101,7 +100,7 @@ public class CartManageImpl implements CartManage {
 			stat = conn.prepareStatement(sql);
 			stat.setInt(1, amount);
 			stat.setString(2, cartNo);
-			stat.setString(3, goodsId);
+			stat.setInt(3, goodsId);
 			stat.executeUpdate();
 			
 		} catch (Exception e) {

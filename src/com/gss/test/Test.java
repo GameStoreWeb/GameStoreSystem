@@ -1,12 +1,5 @@
 package com.gss.test;
 
-import java.util.Date;
-
-import com.gss.dao.AccountManage;
-import com.gss.dao.impl.SellerLoginManageImpl;
-import com.gss.entity.Goods;
-import com.gss.entity.Seller;
-import com.gss.entity.UserOrder;
 
 
 public class Test {

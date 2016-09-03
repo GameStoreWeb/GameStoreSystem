@@ -228,9 +228,11 @@ public class OrderManageImpl implements OrderManage {
 		connection = JdbcUtils.getConn();
 		
 		//更新订单内容，设置isDeliver=false，isTake=true表示订单已取消
-		String sql = "update order set hasSend = 0, hasReceive = 1";
+		String sql = "update order set hasSend = 0, hasReceive = 1 where orderNo = ? and customerNo = ?";
 		try {
 			statement = connection.prepareStatement(sql);
+			statement.setString(1, orderId);
+			statement.setString(2, id);
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

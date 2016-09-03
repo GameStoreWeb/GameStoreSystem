@@ -1,49 +1,48 @@
 package com.gss.dao;
 
-import java.awt.Image;
 import java.util.List;
 
 import com.gss.entity.Goods;
-import com.gss.entity.SellerOrder;
+import com.gss.entity.UserOrder;
 
 public interface WarehouseManage {
 	/**
 	 * 添加新的商品
 	 * @param goods
 	 */
-	public void addGoods(Goods goods, String sellerid);
+	public void addGoods(Goods goods, int sellerid);
 
 	/**
 	 * 删除商品
 	 * @param goods
 	 */
-	public void deleteGoods(Goods goods,  String sellerid);
+	public void deleteGoods(Goods goods,  int sellerid);
 	
 	/**
 	 * 修改商品
 	 * @param goods
 	 */
-	public void modifyGoods(Goods goods, String sellerid);
+	public void modifyGoods(Goods goods, int sellerid);
 	
 	
 	/**
 	 * 发货
 	 * @param id
 	 */
-	public void deliverGoods(String id,  String sellerid);
+	public void deliverGoods(String id,  int sellerid);
 	
 	/**
 	 * 取消订单
 	 * @param id
 	 */
-	public void cancelOrder(String id, String sellerid);
+	public void cancelOrder(String id, int sellerid);
 	
 	/**
 	 * 展示所有订单
 	 * @param id
 	 * @return
 	 */
-	public SellerOrder showAllOrder(String id);
+	public UserOrder showAllOrder(int id);
 	
 	/**
 	 * @param Category
@@ -54,10 +53,27 @@ public interface WarehouseManage {
 	/**
 	 * @param images
 	 */
-	public void newProducting(List<String> images , String productid);
+	public void newProducting(List<String> images , int productid);
 	
+	/**
+	 * 通过商品ID查找商品
+	 * @param goodsid
+	 * @return
+	 */
 	public Goods findGoodsById(int goodsid);
 	
-	public String findCategoryById(int id);
+	/**
+	 * 根据类别号查找类别
+	 * @param id
+	 * @return
+	 */
+	public String findCategoryById(String id);
+	
+	/**
+	 * 根据关键字查找商品
+	 * @param keyword
+	 * @return
+	 */
+	public List<Goods> findGoodsByKw(String keyword);
 	
 }
