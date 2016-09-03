@@ -3,7 +3,13 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%
+ String msg = "";
+ String tag = request.getParameter("tag");
+ if("2".equals(tag)){
+ 	msg = "您输入的用户名已存在,请重新输入!";
+ }
+ %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +26,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="keywords" content="Sport Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script type="text/javascript">
+	function check_register() {
+		//做用户名和密码的判断 
+	
+		return checkName() && checkUserName() && checkUserPwd() && checkTelephone();
+		
+	}
+	function checkUserName() {
+		if (document.getElementById("userName").value == "") {
+			alert("请输入用户名");
+			return false;
+		}
+		return true;
+	}
+	function checkUserPwd() {
+		if (document.getElementById("password").value == "") {
+			alert("请输入密码");
+			return false;
+		}
+		return true;
+	}
+	function checkName() {
+		if (document.getElementById("name").value == "") {
+			alert("请输入姓名");
+			return false;
+		}
+		return true;
+	}
+	function checkTelephone() {
+		if (document.getElementById("telephone").value == "") {
+			alert("请输入电话");
+			return false;
+		}
+		return true;
+	}
+</script>
+
 <!--fonts-->
 <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <!--//fonts-->
@@ -32,7 +75,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<div class="header">
 		<div class="logo">
-			<a href="index.html"><img src="images/logo.png" alt="" ></a>
+			<a href="index.jsp"><img src="images/logo.png" alt="" ></a>
 		</div>
 		<div  class="header-top">
 			<div class="header-grid">
@@ -96,32 +139,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="register">
 		<h2>REGISTER</h2>		
 		<div class=" register-top">
-			<form>
+			<form action="./AccountService" name="register_form" method="post" onsubmit="return check_register()">
+				<input type="hidden" name="action" value="register" />
 				<div> 	
 				<span>姓名</span>
-				<input type="text"> 
+				<input type="text" name="name" id="name"> 
 			</div>
-			<div> 
-				<span >性别</span>
-				<input type="password">
-			</div>
-			<div> 
-				<span >电话</span>
-				<input type="text">
-			</div>
-			<div> 
-				<span >收货地址</span>
-				<input type="text">
-			</div>
+			<span style="color: red; font-size: 14px"><%=msg %></span>
 			<div> 	
 				<span>用户名</span>
-				<input type="text"> 
+				<input type="text" name="userName" id="userName"> 
 			</div>
 			<div> 	
 				<span>密码</span>
-				<input type="text"> 
+				<input type="password" name="password" id="password"> 
 			</div>
-								
+			<div> 
+				<span >电话</span>
+				<input type="text" name="telephone" id="telephone">
+			</div>
+			<div> 
+				<span >性别</span>
+				<input name="sex" type="radio" value="boy" checked="checked"/>男 
+				<input name="sex" type="radio" value="gril" />女
+			</div>					
 				<input type="submit" value="Submit"> 
 			</form>
 		</div>		

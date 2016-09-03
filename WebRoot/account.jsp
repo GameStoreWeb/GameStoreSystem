@@ -3,7 +3,13 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%
+ String msg = "";
+ String tag = request.getParameter("tag");
+ if("1".equals(tag)){
+ 	msg = "您输入的用户名密码错误，请重新输入";
+ }
+ %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +26,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta name="keywords" content="Sport Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script type="text/javascript">
+	function checkLogin() {
+		//做用户名和密码的判断 
+		return checkUserName() && checkUserPwd();
+		
+	}
+	function checkUserName() {
+		if (document.getElementById("username").value == "") {
+			alert("请输入用户名");
+			return false;
+		}
+		return true;
+	}
+	function checkUserPwd() {
+		if (document.getElementById("password").value == "") {
+			alert("请输入密码");
+			return false;
+		}
+		return true;
+	}
+</script>
+
 <!--fonts-->
 <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <!--//fonts-->
@@ -32,7 +60,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<div class="header">
 		<div class="logo">
-			<a href="index.html"><img src="images/logo.png" alt="" ></a>
+			<a href="index.jsp"><img src="images/logo.png" alt="" ></a>
 		</div>
 		<div  class="header-top">
 			<div class="header-grid">
@@ -66,20 +94,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="h_menu4"><!-- start h_menu4 -->
 				<a class="toggleMenu" href="#">Menu</a>
 				<ul class="nav">
-					<li class="active"><a href="product.html">休闲</a></li>
-					<li><a href="product.html">体育</a></li>		
-					<li><a href="product.html">冒险</a>	
+					<li class="active"><a href="./product.jsp">休闲</a></li>
+					<li><a href="product.jsp">体育</a></li>		
+					<li><a href="product.jsp">冒险</a>	
 					</li>
-					<li><a href="product.html">竞技</a></li>
-					<li><a href="product.html">动作</a></li>
-					<li><a href="product.html">模拟</a></li>
-					<li><a href="product.html">竞速</a></li>
-					<li><a href="product.html">角色扮演</a></li>
-					<li><a href="product.html">更多<i> </i></a>
+					<li><a href="product.jsp">竞技</a></li>
+					<li><a href="product.jsp">动作</a></li>
+					<li><a href="product.jsp">模拟</a></li>
+					<li><a href="product.jsp">竞速</a></li>
+					<li><a href="product.jsp">角色扮演</a></li>
+					<li><a href="product.jsp">更多<i> </i></a>
 						<ul>
-							<li><a href="contact.html">联系我们</a></li>
-							<li><a href="account.html">账号</a></li>
-							<li><a href="register.html">注册</a></li>
+							<li><a href="contact.jsp">联系我们</a></li>
+							<li><a href="account.jsp">账号</a></li>
+							<li><a href="register.jsp">注册</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -97,15 +125,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<h2>乐玩线上商城登录</h2>
 		<div class="account-pass">
 		<div class="col-md-7 account-top">
-			<form>
-				
+			<form action="./AccountService" name="login_form" method="post" onsubmit="return checkLogin()">
+			<input type="hidden" name="action" value="login" />
+			<span style="color: red; font-size: 14px"><%=msg %></span>
 			<div> 	
 				<span>账号</span>
-				<input type="text"> 
+				<input type="text" name="username" id="username"> 
 			</div>
 			<div> 
 				<span >密码</span>
-				<input type="password">
+				<input type="password" name="password" id="password">
 			</div>				
 				<input type="submit" value="Login"> 
 			</form>
@@ -115,7 +144,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="five">
 			<h1>25% </h1><span>discount</span>
 			</div>
-			<a href="register.html" class="create">注册账号</a>
+			<a href="./register.jsp" class="create">注册账号</a>
 <div class="clearfix"> </div>
 		</div>
 	<div class="clearfix"> </div>
@@ -170,7 +199,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="col-md-2 footer-left left-footer">
 			<h4>你的账号</h4>
 				<ul class="run-grid-in">
-					<li><a href="account.html">注册</a></li>
+					<li><a href="register.jsp">注册</a></li>
 					<li><a href="#">我的游戏</a></li>
 					<li><a href="#">我的通知</a></li>
 				</ul>
@@ -187,7 +216,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<span>in the next article</span>
 				<h6>NRL: five things we learned this weekend</h6>
 				<p>In support of suburban games; Warriors rip</p>
-				<a href="register.html" class="sign">SIGN UP AND GET MORE</a>
+				<a href="./register.jsp" class="sign">SIGN UP AND GET MORE</a>
 				
 			</div>
 			
