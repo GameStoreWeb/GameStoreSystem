@@ -1,3 +1,9 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+<%@ taglib  prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +25,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--//fonts-->
 
 </head>
-<
 <body> 
 <!--header-->
 		<div class="line">
@@ -32,6 +37,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div  class="header-top">
 			<div class="header-grid">
 				<ul class="header-in">
+				
 						<li ><a href="account.html">我的账号   </a> </li>				
 					</ul>
 					<div class="search-box">
@@ -91,7 +97,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="product-grids">
 	<div class="container">
 	<div class="product-top">
-		<div class="col-md-4 grid-product-in">	
+	<c:forEach var = "i" begin = "1" end = "5">
+	<div class="col-md-4 grid-product-in">	
 		<div class=" product-grid">	
 			<a href="single.html"><img class="img-responsive " src="images/pr.png" alt=""></a>		
 			<div class="shoe-in">
@@ -103,110 +110,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<b class="plus-on">+</b>
 		</div>	
 		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr1.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr2.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-	
-			<b class="plus-on">+</b>
-		</div>
-		</div>
+	</c:forEach>
+		
 	<div class="clearfix"> </div>
 	</div>	
-	<div class="product-top">
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr3.png" alt=""></a>		
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>	
-		</div>
-	<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr4.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/sh.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-		
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-	<div class="clearfix"> </div>
-	</div>
-	<div class="product-top">
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/sh2.png" alt=""></a>		
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>	
-		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr1.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-		
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-	<div class="clearfix"> </div>
-	</div>
+
+
 	</div>
 </div>
 	<!---->
