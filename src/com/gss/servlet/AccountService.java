@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.gss.dao.AccountManage;
+import com.gss.dao.impl.SellerLoginManageImpl;
 import com.gss.dao.impl.UserLoginManageImpl;
+import com.gss.entity.Page;
+import com.gss.entity.Seller;
 import com.gss.entity.User;
 
 public class AccountService extends HttpServlet {
@@ -67,11 +70,26 @@ public class AccountService extends HttpServlet {
 			throws ServletException, IOException {
 
 		String action = request.getParameter("action");
+		String selecter = request.getParameter("selecter");
+		if("seller".equals(selecter))
+			action = "sellerLogin";
 
 		if ("login".equals(action)) {
 			login(request, response);
+		}else if ("sellerLogin".equals(action)) {
+			sellerLogin(request, response);
 		}else if ("register".equals(action)) {
 			register(request, response);
+		}else if ("showAllSeller".equals(action)) {
+			showAllSeller(request, response);
+		}else if ("addSeller".equals(action)) {
+			addSeller(request, response);
+		}else if ("deleteSeller".equals(action)) {
+			deleteSeller(request, response);
+		}else if ("updateSeller".equals(action)) {
+			updateSeller(request, response);
+		}else if ("getSeller".equals(action)) {
+			getSeller(request, response);
 		}
 	}
 
@@ -114,6 +132,85 @@ public class AccountService extends HttpServlet {
 		}else {
 			response.sendRedirect("./register.jsp?tag=2");
 		}
+	}
+	
+	public void sellerLogin(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String id = request.getParameter("username");
+		String pwd = request.getParameter("password");
+
+		AccountManage sm = new SellerLoginManageImpl();
+		// 登陆成功
+		if (sm.checkLogin(id, pwd)) {
+			response.sendRedirect("./index.jsp");
+		} else {
+			response.sendRedirect("./account.jsp?tag=1");
+		}
+	}
+	
+	public void showAllSeller(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int pageSize = 10;
+		int pageNo = 1;
+		//pageNo不为空，把他转化成整型类型
+		if(!"".equals(request.getParameter("pageNo")) && null != request.getParameter("pageNo"))
+			pageNo = Integer.parseInt(request.getParameter("pageNo"));
+		AccountManage sm = new SellerLoginManageImpl();
+		
+		Page<Seller> page = sm.findSellers(pageNo, pageSize);
+		//通过request对象传递值
+		request.setAttribute("page", page);
+		request.getRequestDispatcher("./list.jsp").forward(request, response);
+	}
+	
+	public void addSeller(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String sname = request.getParameter("sellerName");
+		String spwd = request.getParameter("sellerPwd");
+		String saddress = request.getParameter("address");
+		String sphone = request.getParameter("telephone");
+		
+		Seller seller = new Seller(0, sname, saddress, sphone, spwd);
+		
+		AccountManage sm = new SellerLoginManageImpl();
+		sm.register((Object)seller);
+		
+		request.getRequestDispatcher("./AccountService?action=showAllSeller").forward(request, response);
+	}
+	
+	public void deleteSeller(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String sid = request.getParameter("sid");
+		AccountManage sm = new SellerLoginManageImpl();
+		sm.deleteAccount(sid);
+		
+		request.getRequestDispatcher("./AccountService?action=showAllSeller").forward(request, response);
+	}
+	
+	public void updateSeller(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String sId = request.getParameter("ID");
+		String sname = request.getParameter("sellerName");
+		String spwd = request.getParameter("sellerPwd");
+		String saddress = request.getParameter("address");
+		String sphone = request.getParameter("telephone");
+		
+		Seller seller = new Seller(Integer.parseInt(sId), sname, saddress, sphone, spwd);
+		
+		AccountManage sm = new SellerLoginManageImpl();
+		sm.modifyUnitInfo((Object)seller);
+		
+		request.getRequestDispatcher("./AccountService?action=showAllSeller").forward(request, response);
+	}
+	
+	public void getSeller(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String sid = request.getParameter("sid");
+		AccountManage sm = new SellerLoginManageImpl();
+		Seller seller = (Seller)sm.showUnitInfo(sid);
+		
+		request.setAttribute("seller", seller);
+		request.getRequestDispatcher("./update.jsp").forward(request, response);
 	}
 
 }

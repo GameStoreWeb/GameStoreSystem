@@ -1,5 +1,8 @@
 package com.gss.dao;
 
+import com.gss.entity.Page;
+import com.gss.entity.Seller;
+
 public interface AccountManage {
 	/**
 	 * 检查登录
@@ -30,4 +33,12 @@ public interface AccountManage {
 	 * @return
 	 */
 	public boolean deleteAccount(String id);
+	
+	/**
+	 * 分页展示商家
+	 * @param pageNo
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<Seller> findSellers(int pageNo, int pageSize);
 }

@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import com.gss.commons.JdbcUtils;
 import com.gss.commons.Utils;
 import com.gss.dao.AccountManage;
+import com.gss.entity.Page;
+import com.gss.entity.Seller;
 import com.gss.entity.User;
 
 public class UserLoginManageImpl implements AccountManage {
@@ -228,6 +230,12 @@ public class UserLoginManageImpl implements AccountManage {
 	public boolean deleteAccount(String id) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public Page<Seller> findSellers(int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
