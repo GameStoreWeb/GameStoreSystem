@@ -81,6 +81,7 @@ function hidePopup1(){   var popUp1 = document.getElementById("popupcontent1"); 
 					</c:forEach>
 					</tbody>
 			</table><br>
+		</div>
 			<div align="right" style="width: 600px; float: right;" >
 				一共${page.totalCount }条，共${page.pageCount }页   跳转到第
 				<select style="width: 60px"  onchange="goPage(this.value)">

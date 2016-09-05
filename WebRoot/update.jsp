@@ -13,6 +13,7 @@
 	<body>
 		<form id="userAdd" class="userAdd" action="./AccountService" method="post">
 			<input type="hidden" name="action" value="updateSeller">
+			<input type="hidden" name="method" value="unlocal">
 			<input type="hidden" name="ID" value="${seller.sId }">
 			<div class="right_content" align="center">
 				<h2>修改资料</h2>

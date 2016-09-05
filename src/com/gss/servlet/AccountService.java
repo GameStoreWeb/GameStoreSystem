@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.gss.dao.AccountManage;
 import com.gss.dao.impl.SellerLoginManageImpl;
@@ -108,6 +109,7 @@ public class AccountService extends HttpServlet {
 		String name = request.getParameter("username");
 		String pwd = request.getParameter("password");
 
+		
 		AccountManage sm = new UserLoginManageImpl();
 		// 登陆成功
 		if (sm.checkLogin(name, pwd)) {
@@ -138,11 +140,17 @@ public class AccountService extends HttpServlet {
 			throws ServletException, IOException {
 		String id = request.getParameter("username");
 		String pwd = request.getParameter("password");
-
+		
+		HttpSession session = request.getSession();
+		
 		AccountManage sm = new SellerLoginManageImpl();
+		Seller seller = (Seller)sm.showUnitInfo(id);
 		// 登陆成功
 		if (sm.checkLogin(id, pwd)) {
-			response.sendRedirect("./index.jsp");
+			session.setAttribute("id", id);
+			session.setAttribute("pwd", pwd);
+			session.setAttribute("seller", seller);
+			response.sendRedirect("./sellerInfo.jsp");
 		} else {
 			response.sendRedirect("./account.jsp?tag=1");
 		}
@@ -194,13 +202,21 @@ public class AccountService extends HttpServlet {
 		String spwd = request.getParameter("sellerPwd");
 		String saddress = request.getParameter("address");
 		String sphone = request.getParameter("telephone");
-		
+		String method = request.getParameter("method");
 		Seller seller = new Seller(Integer.parseInt(sId), sname, saddress, sphone, spwd);
+		
+		HttpSession session = request.getSession();
 		
 		AccountManage sm = new SellerLoginManageImpl();
 		sm.modifyUnitInfo((Object)seller);
 		
-		request.getRequestDispatcher("./AccountService?action=showAllSeller").forward(request, response);
+		if("local".equals(method)){
+			session.setAttribute("seller", seller);
+			System.out.println(seller);
+			response.sendRedirect("./sellerInfo.jsp");
+		}else {
+			request.getRequestDispatcher("./AccountService?action=showAllSeller").forward(request, response);
+		}
 	}
 	
 	public void getSeller(HttpServletRequest request, HttpServletResponse response)
