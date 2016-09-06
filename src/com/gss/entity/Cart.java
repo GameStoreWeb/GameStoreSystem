@@ -9,32 +9,17 @@ import java.util.List;
 public class Cart {
 	private String cId;
 	private String cUserId;
-	private List<Goods> goodsItem;
-	private List<Integer> goodsQuantity;
-	
-	public Cart(String cId, String cUserId, List<Goods> goodsItem, List<Integer> goodsQuantity) {
-		super();
-		this.cId = cId;
-		this.cUserId = cUserId;
-		this.goodsItem = goodsItem;
-		this.goodsQuantity = goodsQuantity;
-	}
+	private List<CartGoods> goodsItem;
 	
 	public Cart() {
 		super();
 	}
 
-	public List<Integer> getGoodsQuantity() {
-		return goodsQuantity;
-	}
-
-	public void setGoodsQuantity(List<Integer> goodsQuantity) {
-		this.goodsQuantity = goodsQuantity;
-	}
 
 	public String getCid() {
 		return cId;
 	}
+
 	public void setCid(String cId) {
 		this.cId = cId;
 	}
@@ -44,18 +29,23 @@ public class Cart {
 	public void setcUserId(String cUserId) {
 		this.cUserId = cUserId;
 	}
-	public List<Goods> getGoodsItem() {
+
+
+	public List<CartGoods> getGoodsItem() {
 		return goodsItem;
 	}
-	public void setGoodsItem(List<Goods> goodsItem) {
+
+
+	public void setGoodsItem(List<CartGoods> goodsItem) {
 		this.goodsItem = goodsItem;
 	}
 
 	@Override
 	public String toString() {
 		return "Cart [cId=" + cId + ", cUserId=" + cUserId + ", goodsItem="
-				+ goodsItem + ", goodsQuantity=" + goodsQuantity + "]";
+				+ goodsItem + "]";
 	}
+
 
 	
 }
