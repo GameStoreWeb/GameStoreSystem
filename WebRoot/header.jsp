@@ -28,7 +28,7 @@
   
 <body onload="refresh()">
 	<div class="header">
-        <div class="logo" align="center"><a href="index.html"><img src="images/logo1.png" alt="" title="" border="0" /></a></div>
+        <div class="logo" align="center"><a href="bgIndex.jsp"><img src="images/logo1.png" alt="" title="" border="0" /></a></div>
         <div class="header_menu">
             <div class="header_left">管理员&nbsp; | <a href="pages/userUpate.jsp" target="mainFrame">修改个人资料</a></div>
             <div class="header_center" id="time"></div>
@@ -38,7 +38,7 @@
 				<a href="#" class="prev">前进</a> | 
 				<a href="#" class="next">后退</a> | 
 				-->
-				<a href="javascript:void(0)" onclick="doRefer()" target="_top" class="logout">退出</a>
+				<a href="./bgLogin.jsp" target="_top" class="logout">退出</a>
 			</div>
         </div>
     </div>

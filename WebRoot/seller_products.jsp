@@ -77,7 +77,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<!-- start h_menu4 -->
 					<a class="toggleMenu" href="#">Menu</a>
 					<ul class="nav">
-						<li class="active"><a href="product.html">所有商品</a></li>
 						<li class="active"><a href="product.html">休闲</a></li>
 						<li><a href="product.html">体育</a></li>
 						<li><a href="product.html">冒险</a></li>

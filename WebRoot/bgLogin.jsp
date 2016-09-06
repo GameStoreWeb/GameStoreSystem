@@ -1,3 +1,9 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,33 +37,33 @@
 	</script>
 	<script type="text/javascript">
 		function checkLogin() {
-		//×öÓÃ»§ÃûºÍÃÜÂëµÄÅĞ¶Ï 
+		//åšç”¨æˆ·åå’Œå¯†ç çš„åˆ¤æ–­ 
 		if(checkUserName() && checkUserPwd()){
 			if(document.getElementById("username").value == "admin" && document.getElementById("password").value == "admin"){
 				return true;
 			}else{
-				alert("ÓÃ»§ÃûÃÜÂë´íÎó£¬ÇëÖØĞÂÊäÈë£¡")
+				alert("ç”¨æˆ·åå¯†ç é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼")
 			}
 		}
 		return false;
 	}
 	function checkUserName() {
 		if (document.getElementById("username").value == "") {
-			alert("ÇëÊäÈëÓÃ»§Ãû");
+			alert("è¯·è¾“å…¥ç”¨æˆ·å");
 			return false;
 		}
 		return true;
 	}
 	function checkUserPwd() {
 		if (document.getElementById("password").value == "") {
-			alert("ÇëÊäÈëÃÜÂë");
+			alert("è¯·è¾“å…¥å¯†ç ");
 			return false;
 		}
 		return true;
 	}
 	</script>
 	<!--SIGN UP-->
-	<h1>ÀÖÍæÏßÉÏÉÌ³ÇºóÌ¨¹ÜÀíÏµÍ³</h1>
+	<h1>ä¹ç©çº¿ä¸Šå•†åŸåå°ç®¡ç†ç³»ç»Ÿ</h1>
 	<div class="login-form">
 		<div class="close"></div>
 		<div class="head-info">

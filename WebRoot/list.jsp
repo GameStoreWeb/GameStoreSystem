@@ -82,7 +82,14 @@ function hidePopup1(){   var popUp1 = document.getElementById("popupcontent1"); 
 					</tbody>
 			</table><br>
 		</div>
-			<div align="right" style="width: 600px; float: right;" >
+		<div style="width: 600px; float: left;">
+				当前第${page.pageNo }页  
+				<a href="javascript:goPage(1);">首页</a>
+				<a href="javascript:goPage(${page.pageNo-1 });">上一页</a> 
+				<a href="javascript:goPage(${page.pageNo+1 });">下一页</a>  
+				<a href="javascript:goPage(${page.pageCount });">末页</a>
+			</div>
+			<div align="right" style="float: right; margin-right: 55px" >
 				一共${page.totalCount }条，共${page.pageCount }页   跳转到第
 				<select style="width: 60px"  onchange="goPage(this.value)">
 					<c:forEach var="i" begin="1" end="${page.pageCount }">
@@ -98,13 +105,7 @@ function hidePopup1(){   var popUp1 = document.getElementById("popupcontent1"); 
 					</c:forEach>
 				</select>页
 			</div>
-			<div style="width: 600px; float: left;">
-				当前第${page.pageNo }页  
-				<a href="javascript:goPage(1);">首页</a>
-				<a href="javascript:goPage(${page.pageNo-1 });">上一页</a> 
-				<a href="javascript:goPage(${page.pageNo+1 });">下一页</a>  
-				<a href="javascript:goPage(${page.pageCount });">末页</a>
-			</div>
+			
 		<div class="clear"></div>
 	</body>
 </html>
