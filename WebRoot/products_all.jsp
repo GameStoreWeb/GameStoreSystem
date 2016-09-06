@@ -2,13 +2,7 @@
 <%@page import="com.gss.dao.impl.WarehouseManageImpl"%>
 <%@page import="com.gss.dao.WarehouseManage"%>
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%
 
-WarehouseManage wm = new WarehouseManageImpl();
-List<Goods> goods = wm.showAllGoods();
-
-
-%>
 <%@ taglib  prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
@@ -63,7 +57,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</script>
 					<!-- //search-scripts -->
 					<div class="online">
-					<a href="single.html" >在线商城</a>
+					<a href="./CartService?action=showallcartgoods" >购物车</a>
 					</div>
 					
 					<div class="clearfix"> </div>
@@ -73,7 +67,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="h_menu4"><!-- start h_menu4 -->
 				<a class="toggleMenu" href="#">Menu</a>
 				<ul class="nav">
-					<li class="active"><a href="product.html">所有商品</a></li>
+					<li class="active"><a href="./GoodsService?action=showAllGoods">所有商品</a></li>
 					<li class="active"><a href="product.html">休闲</a></li>
 					<li><a href="product.html">体育</a></li>		
 					<li><a href="product.html">冒险</a>	
@@ -103,14 +97,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="product-grids">
 	<div class="container">
 	<div class="product-top">
-	<c:forEach items = "${cart.goodsItem}" var = "good">
+	<c:forEach items = "${allgoods}" var = "good">
 	<div class="col-md-4 grid-product-in">	
 		<div class=" product-grid"  >	
-			<a href="single.html"><img  class="img-responsive "  src ="${good.gPicture[0]}"  style="width:320px;height:180px;" alt=""></a>		
+			<a href="./GoodsService?action=showUnitGoods&goodid=${good.gId}"><img  class="img-responsive "  src ="${good.gPicture[0]}"  style="width:320px;height:180px;" alt=""></a>		
 			<div class="shoe-in">
 				<h6><a href="single.html">${good.gName}</a></h6>
 				<label>￥${good.gPrice}</label>
-				<a href="single.html" class="store">FIND A STORE</a>
+				<a href="./GoodsService?action=addGoods&goodid=${good.gId}" class="store">加入购物车</a>
 			</div>
 			
 			<b class="plus-on">+</b>

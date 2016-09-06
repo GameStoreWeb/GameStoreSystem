@@ -1,3 +1,14 @@
+<%@page import="com.gss.entity.Cart"%>
+<%@page import="com.gss.dao.impl.CartManageImpl"%>
+<%@page import="com.gss.dao.CartManage"%>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%
+
+
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,9 +29,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
 <!--//fonts-->
 
+<link href="css/stylecart.css" rel='stylesheet' type='text/css' />
 </head>
-<
-<body> 
+
+<body > 
 <!--header-->
 		<div class="line">
 	
@@ -32,7 +44,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div  class="header-top">
 			<div class="header-grid">
 				<ul class="header-in">
-						<li ><a href="account.html">我的账号   </a> </li>				
+						<li ><a href="account.html">我的账号   </a> </li>		
 					</ul>
 					<div class="search-box">
 					    <div id="sb-search" class="sb-search">
@@ -51,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</script>
 					<!-- //search-scripts -->
 					<div class="online">
-					<a href="single.html" >在线商城</a>
+					<a href="./CartService?action=showallcartgoods" >购物车</a>
 					</div>
 					
 					<div class="clearfix"> </div>
@@ -87,128 +99,105 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 		<div class="clearfix"> </div>
 	</div>
-	<!---->	
-<div class="product-grids">
-	<div class="container">
-	<div class="product-top">
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr.png" alt=""></a>		
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
+<!---->
+
+	<div class="main">
+		<div class="container">
+			<div class="check_box">
+
+				
+					<div class="col-md-9 cart-items">
+						<h1>购物车 Cart</h1>
+						<script>
+							$(document)
+									.ready(
+											function(c) {
+												$('.close1')
+														.on(
+																'click',
+																function(c) {
+																	$(
+																			'.cart-header')
+																			.fadeOut(
+																					'slow',
+																					function(
+																							c) {
+																						$(
+																								'.cart-header')
+																								.remove();
+																					});
+																});
+											});
+						</script>
+						<c:forEach items="${cart.goodsItem}" var="varitems">						
+						<div class="cart-header">
+							<div class="cart-sec simpleCart_shelfItem">
+								<div class="cart-item cyc">
+									<img src="${varitems.goods.gPicture[0]}" class="img-responsive" alt="">
+								</div>
+								<div class="cart-item-info">
+									<h3>
+										<a href="#">${varitems.goods.gName}</a><span>规格 : ${varitems.goods.gStandard}</span>
+									</h3>
+									<ul class="qty">
+										<li><p>折扣 : ${varitems.goods.gDiscount}</p></li>
+										<li><p>数量 : ${varitems.goodsQuantity}</p></li>
+									</ul>
+
+									<div class="delivery">
+										<span>
+										<a href="./CartService?action=addoneprodect&goodid=${varitems.goods.gId}"> 增加</a>
+										<a href="./CartService?action=suboneprodect&goodid=${varitems.goods.gId}"> 減少</a>
+										<a href="./CartService?action=deleteoneprodect&goodid=${varitems.goods.gId}"> 刪除</a>
+										</span>
+										<p>价格 : ${varitems.goods.gPrice}</p>
+										
+										<span>立即下载</span>
+										<div class="clearfix"></div>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+
+							</div>
+						</div>
+				</c:forEach>
+					</div>
+
+
+
+				<div class="col-md-3 cart-total">
+					<a class="continue" href="#">继续购物</a>
+					<div class="price-details">
+						<h3>账单细节</h3>
+						<span>总价</span>
+						<span class="total1"> ${total } </span>
+						<span>折扣</span>
+						<span class="total1">---</span> <span>其他费用</span> <span
+							class="total1">0.00</span>
+						<div class="clearfix"></div>
+					</div>
+					<ul class="total_price">
+						<li class="last_price">
+							<h4>总价</h4>
+						</li>
+						<li class="last_price"><span> ${total }</span></li>
+						<div class="clearfix"></div>
+					</ul>
+
+
+					<div class="clearfix"></div>
+					<a class="order" href="#">确认付款</a>
+					<div class="total-item">
+						<h3>申请会员</h3>
+						<h4>刮奖有礼</h4>
+						<a class="cpns" href="#">刮开</a>
+					</div>
+				</div>
+				<div class="clearfix"></div>
 			</div>
-			
-			<b class="plus-on">+</b>
-		</div>	
 		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr1.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr2.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-	
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-	<div class="clearfix"> </div>
-	</div>	
-	<div class="product-top">
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr3.png" alt=""></a>		
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>	
-		</div>
-	<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr4.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/sh.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-		
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-	<div class="clearfix"> </div>
 	</div>
-	<div class="product-top">
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/sh2.png" alt=""></a>		
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>	
-		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr1.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-		
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-		<div class="col-md-4 grid-product-in">	
-		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply dummy </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
-			
-			<b class="plus-on">+</b>
-		</div>
-		</div>
-	<div class="clearfix"> </div>
-	</div>
-	</div>
-</div>
+
 	<!---->
 <!--footer-->
 	<div class="footer">

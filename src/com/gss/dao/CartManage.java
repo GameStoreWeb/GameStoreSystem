@@ -53,5 +53,13 @@ public interface CartManage {
 	 */
 	public float getTotalPrice(Cart cart);
 	
+	
+	/**
+	 * @param userid
+	 * @param goodsId
+	 * @return
+	 */
+	public boolean isInCart(String userid,int goodsId);
+	
 
 }

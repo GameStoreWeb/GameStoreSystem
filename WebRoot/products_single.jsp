@@ -1,9 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -113,33 +109,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="container">
 <div class="single">
 				<div class="col-md-9 top-in-single">
-					<div class="col-md-5 single-top">	
-						<ul id="etalage">
-							<li>
-								<a href="optionallink.html">
-									<img class="etalage_thumb_image img-responsive" src="images/si1.jpg" alt="" >
-									<img class="etalage_source_image img-responsive" src="images/s2.jpg" alt="" >
-								</a>
-							</li>
-							<li>
-								<img class="etalage_thumb_image img-responsive" src="images/si2.jpg" alt="" >
-								<img class="etalage_source_image img-responsive" src="images/s3.jpg" alt="" >
-							</li>
-							<li>
-								<img class="etalage_thumb_image img-responsive" src="images/si.jpg" alt=""  >
-								<img class="etalage_source_image img-responsive" src="images/s1.jpg" alt="" >
-							</li>
-						    <li>
-								<img class="etalage_thumb_image img-responsive" src="images/si3.jpg"  alt="" >
-								<img class="etalage_source_image img-responsive" src="images/s4.jpg" alt="" >
-							</li>
-						</ul>
-
-					</div>	
+	
 					<div class="col-md-7 single-top-in">
 						<div class="single-para">
-							<h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit</h4>
-							<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
+							<h4>${goods.gName }</h4>
+							<p>${goods.gDetail }</p>
 							<div class="star">
 								<ul>
 									<li><i> </i></li>
@@ -149,71 +123,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<li><i> </i></li>
 								</ul>
 								<div class="review">
-									<a href="#"> 3 reviews </a>/
-									<a href="#">  Write a review</a>
+									<a href="#"> 3 评论 </a>/
+									<a href="#">  写评论</a>
 								</div>
 							<div class="clearfix"> </div>
 							</div>
 							
-								<label  class="add-to">$32.8</label>
+								<label  class="add-to">￥${goods.gPrice }</label>
 							
 							<div class="available">
-								<h6>Available Options :</h6>
+								<h6>规格选择 :</h6>
 								<ul>
 									
-								<li>Size:<select>
-									<option>Large</option>
-									<option>Medium</option>
-									<option>small</option>
-									<option>Large</option>
-									<option>small</option>
+								<li>规格:<select>
+									<option>试用版</option>
+									<option>完整版</option>
+									<option>插件</option>
 								</select></li>
-								<li>Cost:
-										<select>
-										<option>U.S.Dollar</option>
-										<option>Euro</option>
-									</select></li>
 							</ul>
 						</div>
 							
-								<a href="#" class="cart ">More details</a>
+							
 							
 						</div>
+						<a href="./GoodsService?action=addGoods&goodid=${good.gId}" style="float:left;"  class="store">加入购物车</a>
+						</br>
+						</br>
+						</br>
 					</div>
-				<div class="clearfix"> </div>
+				<div class="clearfix"> <img class="img-responsive " src="${goods.gPicture[0] }" alt=""> </div>
+				
 				<div class="product-top">
 		<div class="col-md-4 grid-product-in">	
 		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/sh2.png" alt=""></a>		
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply</a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
+			<a href="single.html"><img class="img-responsive " src="${goods.gPicture[1] }" alt=""></a>		
 			
 			<b class="plus-on">+</b>
 		</div>	
 		</div>
 		<div class="col-md-4 grid-product-in">	
 		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr1.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply</a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
+			<a href="single.html"><img class="img-responsive " src="${goods.gPicture[2] }" alt=""></a>
 		
 			<b class="plus-on">+</b>
 		</div>
 		</div>
 		<div class="col-md-4 grid-product-in">	
 		<div class=" product-grid">	
-			<a href="single.html"><img class="img-responsive " src="images/pr.png" alt=""></a>
-			<div class="shoe-in">
-				<h6><a href="single.html">Lorem Ipsum is simply </a></h6>
-				<label>$67.99</label>
-				<a href="single.html" class="store">FIND A STORE</a>
-			</div>
+			<a href="single.html"><img class="img-responsive " src="${goods.gPicture[3] }" alt=""></a>
 			
 			<b class="plus-on">+</b>
 		</div>

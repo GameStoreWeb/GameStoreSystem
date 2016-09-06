@@ -214,5 +214,38 @@ public class CartManageImpl implements CartManage {
 		return total;
 	}
 
+	@Override
+	public boolean isInCart(String userid, int goodsId) {
+		boolean flag = false;
+		Connection conn = null;
+		PreparedStatement stat = null;
+		conn = JdbcUtils.getConn();
+		String cartNo = getCartId(userid);
+		ResultSet rs = null;
+			
+		try {
+			String sql = "SELECT cartdetails  WHERE cartNo = ? AND productNo=?";
+			stat = conn.prepareStatement(sql);
+			stat.setInt(1, 1);
+			stat.setString(2, cartNo);
+			stat.setInt(3, goodsId);
+			rs = stat.executeQuery();
+			
+			while(rs.next())
+			{
+				flag = true;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally
+		{
+			JdbcUtils.closeDB(conn, stat, null);
+		}
+			
+		
+		return flag;
+	}
+
 
 }
