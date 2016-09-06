@@ -33,12 +33,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	</div>
 	<div class="header">
 		<div class="logo">
-			<a href="index.html"><img src="images/logo.png" alt="" ></a>
+			<a href="index.jsp"><img src="images/logo.png" alt="" ></a>
 		</div>
 		<div  class="header-top">
 			<div class="header-grid">
 				<ul class="header-in">
-						<li ><a href="account.html">我的账号   </a> </li>				
+						<li ><a href="./sellerInfo.jsp">${seller.sName }   </a> </li>				
 					</ul>
 					<div class="search-box">
 					    <div id="sb-search" class="sb-search">
@@ -99,7 +99,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	   <div class="container">
 		  <div class="check_box">	 
 		<div class="col-md-9 cart-items">
-			 <h1>购物车 Cart</h1>
+			 <h1>我的商品</h1>
 				<script>$(document).ready(function(c) {
 					$('.close1').on('click', function(c){
 						$('.cart-header').fadeOut('slow', function(c){

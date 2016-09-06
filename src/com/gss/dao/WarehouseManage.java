@@ -90,4 +90,10 @@ public interface WarehouseManage {
 	 */
 	public List<String> showAllGoodsImage(int goodid);
 	
+	/**
+	 * 展示商家的所有商品
+	 * @param sellerId
+	 * @return
+	 */
+	public List<Goods> showSellerProducts(int sellerId);
 }

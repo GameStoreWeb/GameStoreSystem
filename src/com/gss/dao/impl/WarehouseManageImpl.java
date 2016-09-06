@@ -490,5 +490,47 @@ public class WarehouseManageImpl implements WarehouseManage {
 		
 		return images;
 	}
+
+	@Override
+	public List<Goods> showSellerProducts(int sellerId) {
+		// TODO Auto-generated method stub
+		List<Goods> goods = new ArrayList<Goods>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		connection = JdbcUtils.getConn();
+
+	    String sql = "select * from product where producerNo = ?";
+		try {
+					statement = connection.prepareStatement(sql);
+					statement.setInt(1, sellerId);
+					rs = statement.executeQuery();
+					
+					while (rs.next()) {
+						Goods good = new Goods();
+						int productno = rs.getInt("productNo");
+						good.setgId(productno);
+						good.setgName(rs.getString("productName"));
+						good.setgCategory(rs.getString("typeNo"));
+						good.setgDetail(rs.getString("detail"));
+						good.setgStandard(rs.getString("standard"));
+						good.setgPrice(rs.getDouble("price"));
+						AccountManage am = new SellerLoginManageImpl();
+						good.setgSeller((Seller)am.showUnitInfo(""+rs.getInt("producerNo")));
+						good.setgDiscount(rs.getFloat("discount"));
+						good.setgSalesvolume(rs.getInt("sales"));;
+						
+						List<String> images = showAllGoodsImage(productno);
+						good.setgPicture(images);						
+						goods.add(good);
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+					
+		return goods;
+	}
 	
 }

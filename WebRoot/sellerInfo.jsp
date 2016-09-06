@@ -174,7 +174,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<ul>
 						<li>
 							<br/>
-							<label for="color"><span></span> 我的商品</label>
+							<label for="color"><span></span> <a href="./WarehouseService?action=showSellerProducts">我的商品</a></label>
 						</li>
 						<li>
 							<br/>
