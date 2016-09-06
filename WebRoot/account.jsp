@@ -135,8 +135,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div> 
 				<span >密码</span>
 				<input type="password" name="password" id="password">
-			</div>				
-				<input type="submit" value="Login"> 
+			</div>	
+			<select name="selecter">
+				<option value="user" selected="selected">用户</option>
+				<option value="seller">商家</option>
+			</select>	
+				<input type="submit" value="登录">
 			</form>
 		</div>
 		<div class="col-md-5 left-account ">

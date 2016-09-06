@@ -4,9 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.gss.commons.JdbcUtils;
 import com.gss.dao.AccountManage;
+import com.gss.entity.Page;
 import com.gss.entity.Seller;
 
 public class SellerLoginManageImpl implements AccountManage {
@@ -186,6 +189,57 @@ public class SellerLoginManageImpl implements AccountManage {
 			JdbcUtils.closeDB(connection, statement, null);
 		}
 		return flag;
+	}
+
+	@Override
+	public Page<Seller> findSellers(int pageNo, int pageSize) {
+		// TODO Auto-generated method stub
+		Page<Seller> page = new Page<Seller>(pageNo, pageSize);
+		List<Seller> list = new ArrayList<Seller>();
+		Connection conn = null;
+		PreparedStatement stat = null;
+		ResultSet rs = null;
+		
+		conn = JdbcUtils.getConn();
+		try {
+			stat = conn.prepareStatement("select count(*) from producer");
+			
+			rs = stat.executeQuery();
+			while(rs.next()){
+				page.setTotalCount(rs.getInt(1));
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String sql = "select * from producer limit ?, ?";
+		try {
+			stat = conn.prepareStatement(sql);
+			
+			stat.setInt(1, (page.getPageNo()-1)*pageSize);
+			stat.setInt(2, pageSize);
+			rs = stat.executeQuery();
+			
+			while(rs.next()){
+				Seller seller = new Seller();
+				seller.setsId(rs.getInt("producerNo"));
+				seller.setsName(rs.getString("producerName"));
+				seller.setsAddress(rs.getString("address"));
+				seller.setsPhone(rs.getString("telephone"));
+				seller.setsPwd(rs.getString("password"));
+				list.add(seller);
+			}
+			page.setList(list);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(conn, stat, rs);
+		}
+		
+		return page;
 	}
 
 }
