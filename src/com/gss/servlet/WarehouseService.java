@@ -2,11 +2,19 @@ package com.gss.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.gss.dao.WarehouseManage;
+import com.gss.dao.impl.WarehouseManageImpl;
+import com.gss.entity.Goods;
+import com.gss.entity.Seller;
 
 public class WarehouseService extends HttpServlet {
 
@@ -53,7 +61,13 @@ public class WarehouseService extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		String action = request.getParameter("action");
+		
+		if("showSellerProducts".equals(action)){
+			showSellerProducts(request, response);
+		}else if ("addProducts".equals(action)) {
+			addProducts(request, response);
+		}
 	}
 
 	/**
@@ -63,6 +77,47 @@ public class WarehouseService extends HttpServlet {
 	 */
 	public void init() throws ServletException {
 		// Put your code here
+	}
+	
+	public void showSellerProducts(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		Seller seller = (Seller)session.getAttribute("seller");
+		List<Goods> goods = new ArrayList<Goods>();
+		WarehouseManage wm = new WarehouseManageImpl();
+		goods = wm.showSellerProducts(seller.getsId());
+//		request.setAttribute("goods", goods);
+		session.setAttribute("goods", goods);
+		request.getRequestDispatcher("./seller_products.jsp").forward(request, response);
+	}
+	
+	public void addProducts(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
+		Seller seller = (Seller)session.getAttribute("seller");
+		
+		String productName = request.getParameter("productName");
+		String productType = request.getParameter("productType");
+		String productDetail = request.getParameter("productDetail");
+		String productStandard = request.getParameter("productStandard");
+		String productPrice = request.getParameter("productPrice");
+		String productDiscount = request.getParameter("productDiscount");
+		
+		List<String> productPicture = new ArrayList<String>();
+		productPicture.add("/GameStoreSystem/images/2K/NBA2K17/big2.jpg");
+		productPicture.add("/GameStoreSystem/images/2K/NBA2K17/big2.jpg");
+		productPicture.add("/GameStoreSystem/images/2K/NBA2K17/big2.jpg");
+		productPicture.add("/GameStoreSystem/images/2K/NBA2K17/big2.jpg");
+		productPicture.add("/GameStoreSystem/images/2K/NBA2K17/big2.jpg");
+		
+		Goods good = new Goods(0, productName, productType, productDetail, Float.parseFloat(productDiscount), productStandard, Double.parseDouble(productPrice), null, productPicture, 0, null);
+		
+		WarehouseManage wm = new WarehouseManageImpl();
+		wm.addGoods(good, seller.getsId());
+		
+		session.setAttribute("good", good);
+		request.getRequestDispatcher("./WarehouseService?action=showSellerProducts").forward(request, response);
 	}
 
 }

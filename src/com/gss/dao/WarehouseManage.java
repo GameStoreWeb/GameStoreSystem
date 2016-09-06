@@ -96,4 +96,5 @@ public interface WarehouseManage {
 	 * @return
 	 */
 	public List<Goods> showSellerProducts(int sellerId);
+	
 }

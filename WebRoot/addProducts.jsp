@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -18,6 +17,7 @@
 <!-- Custom Theme files -->
 <!--theme-style-->
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/stylecart.css" rel='stylesheet' type='text/css' />
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -32,15 +32,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800'
 	rel='stylesheet' type='text/css'>
 <!--//fonts-->
+<link rel="stylesheet" href="css/etalage.css">
+<script src="js/jquery.etalage.min.js"></script>
+<script>
+	jQuery(document)
+			.ready(
+					function($) {
 
-<link href="css/stylecart.css" rel='stylesheet' type='text/css' />
+						$('#etalage')
+								.etalage(
+										{
+											thumb_image_width : 300,
+											thumb_image_height : 400,
+											source_image_width : 900,
+											source_image_height : 1200,
+											show_hint : true,
+											click_callback : function(
+													image_anchor, instance_id) {
+												alert('Callback example:\nYou clicked on an image with the anchor: "'
+														+ image_anchor
+														+ '"\n(in Etalage instance: "'
+														+ instance_id + '")');
+											}
+										});
+
+					});
+</script>
+
 </head>
 <body>
 	<!--header-->
 	<div class="line"></div>
 	<div class="header">
 		<div class="logo">
-			<a href="index.jsp"><img src="images/logo.png" alt=""></a>
+			<a href="./index.jsp"><img src="images/logo.png" alt=""></a>
 		</div>
 		<div class="header-top">
 			<div class="header-grid">
@@ -77,7 +102,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<!-- start h_menu4 -->
 					<a class="toggleMenu" href="#">Menu</a>
 					<ul class="nav">
-						<li class="active"><a href="product.html">所有商品</a></li>
 						<li class="active"><a href="product.html">休闲</a></li>
 						<li><a href="product.html">体育</a></li>
 						<li><a href="product.html">冒险</a></li>
@@ -103,53 +127,56 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="clearfix"></div>
 	</div>
 	<!---->
-
-	<div class="main">
-		<div class="container">
-			<div class="check_box">
-				<div class="col-md-9 cart-items">
-					<h1 style="color: red;">我的商品</h1>
-					<script>
-						$(document).ready(function(c) {
-							$('.close1').on('click', function(c) {
-								$('.cart-header').fadeOut('slow', function(c) {
-									$('.cart-header').remove();
-								});
-							});
-						});
-					</script>
-					<c:forEach items="${goods }" var="good">
-						<div class="cart-header">
-							<div class="close1"></div>
-							<div class="cart-sec simpleCart_shelfItem">
-								<div class="cart-item cyc">
-									<img src="${good.gPicture[0]}" class="img-responsive" alt="">
+	<div class="container">
+		<div class="single">
+			<div class="col-md-9 top-in-single" style="float: left;">
+				<div class="container">
+				<h3 style="color: red;">添加商品</h3>
+					<div class="register">
+						<div class=" register-top">
+							<form action="./WarehouseService" name="seller_form"
+								method="post">
+								<input type="hidden" name="action" value="addProducts">
+								<input type="hidden" name="ID" value="${seller.sId }">
+								<div>
+									<span>商品名称</span> <input type="text" name="productName">
 								</div>
-								<div class="cart-item-info">
-									<h3>
-										<a href="#">${good.gName }</a>
-									</h3>
-									<ul class="qty">
-										<li><p>规格：${good.gStandard }</p></li>
-										<li><p>优惠：${good.gDiscount }</p></li>
-									</ul>
-									<h5>${good.gDetail }</h5>
-									<div class="delivery">
-										<p>单价 : ￥${good.gPrice }</p>
+								<div>
+									<span>商品类别</span> <input type="text" name="productType">
+								</div>
+								<div>
+									<span>商品描述</span> <input type="text" name="productDetail">
+								</div>
+								<div>
+									<span>商品规格</span> <input type="text" name="productStandard">
+								</div>
+								<div>
+									<span>商品单价</span> <input type="text" name="productPrice">
+								</div>
+								<div>
+									<span>商品优惠</span> <input type="text" name="productDiscount">
+								</div>
 
-										<div class="clearfix"></div>
+								<div>
+									<div style="float: left;">
+										<span>商品图片(小图)</span> <input type="file" name="smallImg">
+									</div>
+									<div>
+										<span>商品图片(大图)</span> <input type="file" name="bigImg">
 									</div>
 								</div>
-								<div class="clearfix"></div>
 
-							</div>
+								<input type="submit" value="添加">
+							</form>
 						</div>
-					</c:forEach>
-					
-					
-					
+					</div>
 				</div>
-				<div class="col-md-3 cart-total">
+				<div class="col-md-7 single-top-in"></div>
+				<div class="clearfix"></div>
+
+			</div>
+			
+			<div class="col-md-3 cart-total">
 					<a class="continue">订单管理</a>
 					<div class="price-details" style="text-align: center;">
 						<h3>我的订单</h3>
@@ -168,8 +195,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="clearfix"></div>
 					</div>
 				</div>
-				<div class="clearfix"></div>
-			</div>
+			<div class="clearfix"></div>
 		</div>
 	</div>
 

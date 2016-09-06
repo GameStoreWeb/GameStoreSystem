@@ -41,3 +41,6 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+WebRoot/WEB-INF/classes/com/gss/servlet/WarehouseService.class
+WebRoot/WEB-INF/classes/com/gss/servlet/WarehouseService.class
+*.class
