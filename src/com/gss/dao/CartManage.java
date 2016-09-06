@@ -1,5 +1,9 @@
 package com.gss.dao;
 
+import java.util.List;
+
+import com.gss.entity.Cart;
+
 
 public interface CartManage {
 	/**
@@ -29,4 +33,16 @@ public interface CartManage {
 	 * @return用户的购物车主键
 	 */
 	public String getCartId(String userid);
+	
+	/**
+	 * @param userid
+	 * @return
+	 */
+	public Cart showAllCart(String userid);
+	
+	/**
+	 * @param userid
+	 * @return
+	 */
+	public float getTotalPrice(Cart cart);
 }

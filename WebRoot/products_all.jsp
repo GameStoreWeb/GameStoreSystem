@@ -103,7 +103,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="product-grids">
 	<div class="container">
 	<div class="product-top">
-	<c:forEach items = "<%=goods%>" var = "good">
+	<c:forEach items = "${cart.goodsItem}" var = "good">
 	<div class="col-md-4 grid-product-in">	
 		<div class=" product-grid"  >	
 			<a href="single.html"><img  class="img-responsive "  src ="${good.gPicture[0]}"  style="width:320px;height:180px;" alt=""></a>		

@@ -263,6 +263,8 @@ public class WarehouseManageImpl implements WarehouseManage {
 				goods.setgSeller((Seller)object);
 				goods.setgDiscount(rs.getFloat("discount"));
 				goods.setgSalesvolume(rs.getInt("sales"));
+				List<String> images = showAllGoodsImage(goodsid);
+				goods.setgPicture(images);			
 			}
 		}catch (Exception e)
 		{
