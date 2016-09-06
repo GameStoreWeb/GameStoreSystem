@@ -1,5 +1,6 @@
 package com.gss.dao.impl;
 
+import java.security.interfaces.RSAKey;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -26,6 +27,7 @@ public class WarehouseManageImpl implements WarehouseManage {
 		Connection conn = null;
 		PreparedStatement stat = null;
 		conn = JdbcUtils.getConn();
+		ResultSet rs = null;
 		String Categoryid = findIDByCategoryname(goods.getgCategory());
 		if(" ".equals(Categoryid)) 
 		{
@@ -49,15 +51,30 @@ public class WarehouseManageImpl implements WarehouseManage {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		String sql2 = "insert into productimg(smallImg, bigImg, bidImg1, bigImg2, bigImg3) values(?, ?, ?, ?, ?)";
+		int productNo = 0;
+		String sql1 = "select max(productNo) as id from product";
+		try {
+			stat = conn.prepareStatement(sql1);
+			rs = stat.executeQuery();
+			
+			while (rs.next()) {
+				productNo = rs.getInt("id");
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(productNo);
+		
+		String sql2 = "insert into productimg(productNo, smallImg, bigImg, bigImg1, bigImg2, bigImg3) values(?, ?, ?, ?, ?, ?)";
 		try {
 			stat = conn.prepareStatement(sql2);
-			stat.setString(1, goods.getgPicture().get(0));
-			stat.setString(2, goods.getgPicture().get(1));
-			stat.setString(3, goods.getgPicture().get(2));
-			stat.setString(4, goods.getgPicture().get(3));
-			stat.setString(5, goods.getgPicture().get(4));
+			stat.setInt(1, productNo);
+			stat.setString(2, goods.getgPicture().get(0));
+			stat.setString(3, goods.getgPicture().get(1));
+			stat.setString(4, goods.getgPicture().get(2));
+			stat.setString(5, goods.getgPicture().get(3));
+			stat.setString(6, goods.getgPicture().get(4));
 			
 			stat.executeUpdate();
 		} catch (SQLException e) {
@@ -161,7 +178,6 @@ public class WarehouseManageImpl implements WarehouseManage {
 		conn = JdbcUtils.getConn();
 		
 		String protypeNo = null;
-		String num = null;
 		
 		String sql2 = "select protypeNo from protype";
 		
@@ -169,21 +185,13 @@ public class WarehouseManageImpl implements WarehouseManage {
 			stat = conn.prepareStatement(sql2);
 			rs = stat.executeQuery();
 			
-			//生成类别ID，格式为t+当前日期+序号，例如：t2016083103
-			int count = 0;
-			String date = Utils.getDate();
+			//生成类别ID
+			int max = 0;
 			while (rs.next()) {
-				String id = rs.getString("protypeNo");
-				String tmp = id.substring(1, 9);
-				if(tmp.equals(date))
-					count++;
+				if(Integer.parseInt(rs.getString("protypeNo")) > max)
+					max = Integer.parseInt(rs.getString("protypeNo"));
 			}
-			if(count < 10){
-				num = "0" + count;
-			}else {
-				num = "" + count;
-			}
-			protypeNo = "u" + date + num;
+			protypeNo = ""+(max+1);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
