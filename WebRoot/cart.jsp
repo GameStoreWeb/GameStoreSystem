@@ -6,7 +6,7 @@
 <%
 
 
-float total = 0;
+
 %>
 
 <!DOCTYPE html>
@@ -31,12 +31,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <link href="css/stylecart.css" rel='stylesheet' type='text/css' />
 </head>
-<script type="text/javascript">
-   function onload(){
-	   document.location.href="./CartService?action=showallcartgoods"
-   } 
-</script>
-<body onload = "onload()"> 
+
+<body > 
 <!--header-->
 		<div class="line">
 	
@@ -48,7 +44,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div  class="header-top">
 			<div class="header-grid">
 				<ul class="header-in">
-						<li ><a href="account.html">我的账号   </a> </li>				
+						<li ><a href="account.html">我的账号   </a> </li>		
 					</ul>
 					<div class="search-box">
 					    <div id="sb-search" class="sb-search">
@@ -67,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</script>
 					<!-- //search-scripts -->
 					<div class="online">
-					<a href="single.html" >在线商城</a>
+					<a href="./CartService?action=showallcartgoods" >购物车</a>
 					</div>
 					
 					<div class="clearfix"> </div>
@@ -150,9 +146,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 									<div class="delivery">
 										<span>
-										<a href="./CartService?action=addOneProdect"> 增加</a>
-										<a href="#"> 減少</a>
-										<a href="#"> 刪除</a>
+										<a href="./CartService?action=addoneprodect&goodid=${varitems.goods.gId}"> 增加</a>
+										<a href="./CartService?action=suboneprodect&goodid=${varitems.goods.gId}"> 減少</a>
+										<a href="./CartService?action=deleteoneprodect&goodid=${varitems.goods.gId}"> 刪除</a>
 										</span>
 										<p>价格 : ${varitems.goods.gPrice}</p>
 										
@@ -174,7 +170,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="price-details">
 						<h3>账单细节</h3>
 						<span>总价</span>
-						<span class="total1"> <%=total %> </span>
+						<span class="total1"> ${total } </span>
 						<span>折扣</span>
 						<span class="total1">---</span> <span>其他费用</span> <span
 							class="total1">0.00</span>
@@ -184,7 +180,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li class="last_price">
 							<h4>总价</h4>
 						</li>
-						<li class="last_price"><span><%=total %></span></li>
+						<li class="last_price"><span> ${total }</span></li>
 						<div class="clearfix"></div>
 					</ul>
 

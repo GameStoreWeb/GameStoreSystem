@@ -89,16 +89,16 @@ public class CartManageImpl implements CartManage {
 	}
 
 	@Override
-	public void modifyGoods(int goodsId, String userId, int amount) {
+	public void modifyGoods_in(int goodsId, String userId) {
 		Connection conn = null;
 		PreparedStatement stat = null;
 		conn = JdbcUtils.getConn();
 		String cartNo = getCartId(userId);
 			
 		try {
-			String sql = "UPDATE cartdetails SET quantity = ? WHERE cartNo = ? AND productNo=?";
+			String sql = "UPDATE cartdetails SET quantity =quantity+ ? WHERE cartNo = ? AND productNo=?";
 			stat = conn.prepareStatement(sql);
-			stat.setInt(1, amount);
+			stat.setInt(1, 1);
 			stat.setString(2, cartNo);
 			stat.setInt(3, goodsId);
 			stat.executeUpdate();
@@ -111,6 +111,31 @@ public class CartManageImpl implements CartManage {
 		}
 	}
 
+	
+	@Override
+	public void modifyGoods_de(int goodsId, String userId) {
+		Connection conn = null;
+		PreparedStatement stat = null;
+		conn = JdbcUtils.getConn();
+		String cartNo = getCartId(userId);
+			
+		try {
+			String sql = "UPDATE cartdetails SET quantity = quantity+ ? WHERE cartNo = ? AND productNo=?";
+			stat = conn.prepareStatement(sql);
+			stat.setInt(1, 1);
+			stat.setString(2, cartNo);
+			stat.setInt(3, goodsId);
+			stat.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally
+		{
+			JdbcUtils.closeDB(conn, stat, null);
+		}
+	}
+	
+	
 	@Override
 	public String getCartId(String userid) {
 		Connection conn = null;
@@ -188,5 +213,6 @@ public class CartManageImpl implements CartManage {
 		
 		return total;
 	}
+
 
 }

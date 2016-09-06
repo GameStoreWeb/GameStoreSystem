@@ -19,13 +19,20 @@ public interface CartManage {
 	 */
 	public void deleteGoods(int goodsId, String userId);
 	/**
-	 * 修改购物车中商品数量
+	 * 增加商品数量
 	 * @param goodsId
 	 * @param userId
 	 * @param amount
 	 */
-	public void modifyGoods(int goodsId, String userId, int amount);
+	public void modifyGoods_in(int goodsId, String userId);
 	
+	/**
+	 * 减少商品数量
+	 * @param goodsId
+	 * @param userId
+	 * @param amount
+	 */
+	public void modifyGoods_de(int goodsId, String userId);
 
 	/**
 	 * 获取用户的购物车主键
@@ -45,4 +52,6 @@ public interface CartManage {
 	 * @return
 	 */
 	public float getTotalPrice(Cart cart);
+	
+
 }
