@@ -39,9 +39,8 @@
     <servlet-name>CartService</servlet-name>
     <servlet-class>com.gss.servlet.CartService</servlet-class>
   </servlet>
-
-
-
+  
+  <servlet>
     <servlet-name>WarehouseService</servlet-name>
     <servlet-class>com.gss.servlet.WarehouseService</servlet-class>
   </servlet>
@@ -52,14 +51,15 @@
     <servlet-name>AccountService</servlet-name>
     <url-pattern>/AccountService</url-pattern>
   </servlet-mapping>
+  
   <servlet-mapping>
-
     <servlet-name>CartService</servlet-name>
     <url-pattern>/CartService</url-pattern>
-
+     </servlet-mapping>
+     
+  <servlet-mapping>
     <servlet-name>WarehouseService</servlet-name>
     <url-pattern>/WarehouseService</url-pattern>
-
   </servlet-mapping>
   
  <filter>
