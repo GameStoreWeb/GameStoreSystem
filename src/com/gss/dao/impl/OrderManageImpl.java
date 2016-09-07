@@ -77,15 +77,15 @@ public class OrderManageImpl implements OrderManage {
 		}
 		
 		//设置新的订单项
-		String sql3 = "isnert into orderdetails(orderNo, productNo, quantity, price) values(?, ?, ?, ?)";
+		String sql3 = "insert into orderdetails(orderNo, productNo, quantity, price) values(?, ?, ?, ?)";
 		try {
 			for(int i=0; i<order.getGoodsItem().size(); i++){
 				statement = connection.prepareStatement(sql3);
 				
 				statement.setString(1, orderNo);
 				statement.setInt(2, order.getGoodsItem().get(i).getgId());
-				statement.setInt(2, order.getGoodsQuantity().get(i));
-				
+				statement.setInt(3, order.getGoodsQuantity().get(i));
+				statement.setDouble(4, order.getGoodsItem().get(i).getgPrice());
 				statement.executeUpdate();
 			}
 		} catch (SQLException e) {

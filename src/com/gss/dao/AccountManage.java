@@ -2,6 +2,7 @@ package com.gss.dao;
 
 import com.gss.entity.Page;
 import com.gss.entity.Seller;
+import com.gss.entity.User;
 
 public interface AccountManage {
 	/**
@@ -22,6 +23,12 @@ public interface AccountManage {
 	 * @return
 	 */
 	public Object showUnitInfo(String id);
+	/**
+	 * 根据用户名查找用户
+	 * @param userName
+	 * @return
+	 */
+	public User getUserByName(String userName);
 	/**
 	 * 修改个人信息
 	 * @param object

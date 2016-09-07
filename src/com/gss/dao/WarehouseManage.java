@@ -35,7 +35,7 @@ public interface WarehouseManage {
 	 * 取消订单
 	 * @param id
 	 */
-	public void cancelOrder(String id, int sellerid);
+	public void cancelOrder(String id);
 	
 	/**
 	 * 展示所有订单
@@ -96,5 +96,16 @@ public interface WarehouseManage {
 	 * @return
 	 */
 	public List<Goods> showSellerProducts(int sellerId);
+	
+	/**
+	 * 修改订单状态为已发货
+	 * @param id
+	 */
+	public void sendGoods(String id);
+	/**
+	 * 修改订单状态为已收获
+	 * @param id
+	 */
+	public void receiveGoods(String id);
 	
 }

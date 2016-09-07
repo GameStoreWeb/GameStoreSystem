@@ -1,6 +1,8 @@
 package com.gss.dao;
 
 import com.gss.entity.Cart;
+import com.gss.entity.CartDetails;
+import com.gss.entity.Goods;
 
 
 public interface CartManage {
@@ -58,6 +60,23 @@ public interface CartManage {
 	 * @return
 	 */
 	public boolean isInCart(String userid,int goodsId);
+	/**
+	 * 获取购物车里某个商品
+	 * @param userId
+	 * @param goodsId
+	 * @return
+	 */
+	public CartDetails getCartDetailsById(String userId,int goodsId);
+	/**
+	 * 修个某个购物车的商品
+	 * @param userId
+	 * @param goods
+	 */
+	public void updateCartDetails(CartDetails cartDetails);
 	
-
+	/**
+	 * 清空购物车
+	 * @param userId
+	 */
+	public void clearCart(String userId);
 }

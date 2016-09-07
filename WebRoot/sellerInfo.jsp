@@ -71,6 +71,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="header-grid">
 				<ul class="header-in">
 					<li><a href="sellerInfo.jsp">${seller.sName } </a></li>
+					<li><a href="./AccountService?action=logout">退出 </a></li>
 				</ul>
 				<div class="search-box">
 					<div id="sb-search" class="sb-search">

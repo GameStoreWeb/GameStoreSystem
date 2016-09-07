@@ -91,6 +91,12 @@ public class AccountService extends HttpServlet {
 			updateSeller(request, response);
 		}else if ("getSeller".equals(action)) {
 			getSeller(request, response);
+		}else if ("logout".equals(action)) {
+			logout(request, response);
+		}else if("findAccountByName".equals(action)){
+			findAccountByName(request, response);
+		}else if ("updateUser".equals(action)) {
+			updateUser(request, response);
 		}
 	}
 
@@ -109,13 +115,14 @@ public class AccountService extends HttpServlet {
 		String name = request.getParameter("username");
 		String pwd = request.getParameter("password");
 
-		
+		HttpSession session = request.getSession();
 		AccountManage sm = new UserLoginManageImpl();
 		// µÇÂ½³É¹¦
 		if (sm.checkLogin(name, pwd)) {
+			session.setAttribute("username", name);
 			response.sendRedirect("./index.jsp");
 		} else {
-			response.sendRedirect("./account.jsp?tag=1");
+			request.getRequestDispatcher("./account.jsp?tag=1").forward(request, response);
 		}
 	}
 	public void register(HttpServletRequest request, HttpServletResponse response)
@@ -228,5 +235,37 @@ public class AccountService extends HttpServlet {
 		request.setAttribute("seller", seller);
 		request.getRequestDispatcher("./update.jsp").forward(request, response);
 	}
+	
+	public void logout(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		response.sendRedirect("./account.jsp");
+	}
+	public void findAccountByName(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String userName = (String) session.getAttribute("username");
+		AccountManage accountManage = new UserLoginManageImpl();
+		User user = accountManage.getUserByName(userName);
+		session.setAttribute("user", user);
+		request.getRequestDispatcher("./userinfo.jsp").forward(request, response);
+	}
+	
+	public void updateUser(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		
+		user.setuTelephone(request.getParameter("telephone"));
+		user.setuPwd(request.getParameter("password"));
+		
+		AccountManage sm = new UserLoginManageImpl();
+		sm.modifyUnitInfo((Object)user);
+		session.setAttribute("user", user);
+		request.getRequestDispatcher("./userinfo.jsp").forward(request, response);
+	}
+	
 
 }

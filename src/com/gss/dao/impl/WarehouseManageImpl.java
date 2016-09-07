@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.gss.commons.JdbcUtils;
 import com.gss.dao.AccountManage;
-import com.gss.dao.OrderManage;
 import com.gss.dao.WarehouseManage;
 import com.gss.entity.Goods;
 import com.gss.entity.Seller;
@@ -320,7 +319,7 @@ public class WarehouseManageImpl implements WarehouseManage {
 
 
 	@Override
-	public void cancelOrder(String id, int sellerid) {
+	public void cancelOrder(String id) {
 		// TODO Auto-generated method stub
 		Connection connection = null;
 		PreparedStatement statement = null;
@@ -591,6 +590,50 @@ public class WarehouseManageImpl implements WarehouseManage {
 				}
 					
 		return goods;
+	}
+
+	@Override
+	public void sendGoods(String id) {
+		// TODO Auto-generated method stub
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		connection = JdbcUtils.getConn();
+		
+		//更新订单内容，设置isDeliver=false，isTake=true表示订单已取消
+		String sql = "update order1 set hasSend = 1, hasReceive = 0 where orderNo = ?";
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, null);
+		}
+	}
+
+	@Override
+	public void receiveGoods(String id) {
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		connection = JdbcUtils.getConn();
+		
+		//更新订单内容，设置isDeliver=false，isTake=true表示订单已取消
+		String sql = "update order1 set hasSend = 1, hasReceive = 1 where orderNo = ?";
+		try {
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, id);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, null);
+		}
+		
 	}
 	
 }

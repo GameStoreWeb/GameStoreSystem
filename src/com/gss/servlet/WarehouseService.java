@@ -2,6 +2,7 @@ package com.gss.servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -10,14 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.gss.dao.AccountManage;
+import com.gss.dao.CartManage;
 import com.gss.dao.OrderManage;
 import com.gss.dao.WarehouseManage;
+import com.gss.dao.impl.CartManageImpl;
 import com.gss.dao.impl.OrderManageImpl;
+import com.gss.dao.impl.SellerLoginManageImpl;
 import com.gss.dao.impl.WarehouseManageImpl;
+import com.gss.entity.Cart;
 import com.gss.entity.GoodVo;
 import com.gss.entity.Goods;
 import com.gss.entity.OrderVo;
 import com.gss.entity.Seller;
+import com.gss.entity.User;
 import com.gss.entity.UserOrder;
 
 public class WarehouseService extends HttpServlet {
@@ -75,7 +82,49 @@ public class WarehouseService extends HttpServlet {
 			showSellerOrders(request, response);
 		}else if ("showUnitOrder".equals(action)) {
 			showUnitOrder(request, response);
+		}else if ("cancelOrder".equals(action)) {
+			cancelOrder(request, response);
+		}else if ("updateOrder".equals(action)) {
+			updateOrder(request, response);
+		}else if ("showUserOrders".equals(action)) {
+			showUserOrders(request, response);
+		}else if ("updateUserOrder".equals(action)) {
+			updateUserOrder(request, response);
+		}else if ("getOrderGoods".equals(action)) {
+			getOrderGoods(request, response);
+		}else if ("payForBill".equals(action)) {
+			payForBill(request, response);
 		}
+	}
+	
+	
+
+	private void updateUserOrder(HttpServletRequest request,
+			HttpServletResponse response)  throws ServletException, IOException {
+
+
+		String oid = request.getParameter("oid");
+		
+		WarehouseManage wm = new WarehouseManageImpl();
+		wm.receiveGoods(oid);
+		
+		request.getRequestDispatcher("./WarehouseService?action=showUserOrders").forward(request, response);
+	}
+
+	private void showUserOrders(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
+		User user = (User)session.getAttribute("user");
+		List<UserOrder> userOrders = new ArrayList<UserOrder>();
+		OrderManage orderManage = new OrderManageImpl();
+		userOrders = orderManage.showAllOrders(user.getuId());
+		
+//		System.out.println(sellerOrders);
+//		session.setAttribute("sellerOrders", sellerOrders);
+		request.setAttribute("userOrders", userOrders);
+		request.getRequestDispatcher("./userOrder.jsp").forward(request, response);
+		
 	}
 
 	/**
@@ -164,8 +213,86 @@ public class WarehouseService extends HttpServlet {
 //		System.out.println(order);
 //		request.setAttribute("order", order);
 		
-		request.getRequestDispatcher("./sellerOrderDetail.jsp").forward(request, response);
+		String method = request.getParameter("method");
+		if("1".equals(method)){
+			request.getRequestDispatcher("./sellerOrderDetail.jsp").forward(request, response);
+		}else {
+			request.getRequestDispatcher("./userOrderDetail.jsp").forward(request, response);
+		}
 		
+	}
+	
+	public void cancelOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		String oid = request.getParameter("oid");
+		
+		WarehouseManage wm = new WarehouseManageImpl();
+		wm.cancelOrder(oid);
+		String method = request.getParameter("method");
+		if("1".equals(method)){
+			request.getRequestDispatcher("./WarehouseService?action=showSellerOrders").forward(request, response);
+		}else {
+			request.getRequestDispatcher("./WarehouseService?action=showUserOrders").forward(request, response);
+		}
+	}
+	
+	public void updateOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		String oid = request.getParameter("oid");
+		
+		WarehouseManage wm = new WarehouseManageImpl();
+		wm.sendGoods(oid);
+		
+		request.getRequestDispatcher("./WarehouseService?action=showSellerOrders").forward(request, response);
+	}
+	
+	public void getOrderGoods(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		CartManage cartManage = new CartManageImpl();
+		Cart cart = cartManage.showAllCart(user.getuId());
+		float total = cartManage.getTotalPrice(cart);
+		session.setAttribute("cart", cart);
+		request.setAttribute("total", total);
+//		System.out.println(order);
+//		request.setAttribute("order", order);
+		
+		request.getRequestDispatcher("./userPayPage.jsp").forward(request, response);
+	}
+	
+	public void payForBill(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
+		User user = (User) session.getAttribute("user");
+		CartManage cartManage = new CartManageImpl();
+		Cart cart = cartManage.showAllCart(user.getuId());
+		float total = cartManage.getTotalPrice(cart);
+		session.setAttribute("cart", cart);
+		request.setAttribute("total", total);
+		
+		List<Goods> lGoods = new ArrayList<Goods>();
+		List<Integer> lQuantity = new ArrayList<Integer>();
+		
+		for(int i=0; i<cart.getGoodsItem().size(); i++){
+			lGoods.add(cart.getGoodsItem().get(i).getGoods());
+			lQuantity.add(cart.getGoodsItem().get(i).getGoodsQuantity());
+		}
+		
+		Date startDate = new Date();
+		String address = request.getParameter("userAddress");
+		
+		UserOrder order = new UserOrder(null, user.getuId(), address, startDate, false, total, startDate, false, lGoods, lQuantity);
+		
+		OrderManage orderManage = new OrderManageImpl();
+		orderManage.addOrder(order);
+		
+		cartManage.clearCart(user.getuId());
+		
+		request.getRequestDispatcher("./CartService?action=showallcartgoods").forward(request, response);
 	}
 
 }

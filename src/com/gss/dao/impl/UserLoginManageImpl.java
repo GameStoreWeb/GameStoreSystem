@@ -238,4 +238,39 @@ public class UserLoginManageImpl implements AccountManage {
 		return null;
 	}
 
+	@Override
+	public User getUserByName(String userName) {
+		User user = null;
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		connection = JdbcUtils.getConn();
+		String sql = "select * from customer where userName = ?";
+		
+		try {
+			statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, userName);
+			
+			rs = statement.executeQuery();
+			
+			while (rs.next()) {
+				String customerNo = rs.getString("customerNo");
+				String password = rs.getString("password");
+				String customerName = rs.getString("customerName");
+				String sex = rs.getString("sex");
+				String telephone = rs.getString("telephone");
+				
+				user = new User(customerNo, password, userName, sex, customerName, telephone);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, rs);
+		}
+		return user;
+	}
+
 }

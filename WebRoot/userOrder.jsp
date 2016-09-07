@@ -36,14 +36,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="text/javascript">
 		function doDelete(oid){
 			if(confirm("是否取消该订单?")){
-				location.href = "./WarehouseService?oid=" + oid + "&action=cancelOrder&method=1";
+				location.href = "./WarehouseService?oid=" + oid + "&action=cancelOrder&method=2";
 			}
 		}
 		function doShowOrder(oid) {
-			location.href = "./WarehouseService?oid=" + oid + "&action=showUnitOrder&method=1";
+			location.href = "./WarehouseService?oid=" + oid + "&action=showUnitOrder&method=2";
 		}
 		function doUpdate(oid) {
-			location.href = "./WarehouseService?oid=" + oid + "&action=updateOrder";
+			location.href = "./WarehouseService?oid=" + oid + "&action=updateUserOrder";
 		}
 </script>
 <!--fonts-->
@@ -64,7 +64,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="header-top">
 			<div class="header-grid">
 				<ul class="header-in">
-					<li><a href="./sellerInfo.jsp">${seller.sName } </a></li>
+					<li><a href="./userinfo.jsp">${user.uLoginName } </a></li>
 					<li><a href="./AccountService?action=logout">退出 </a></li>
 				</ul>
 				<div class="search-box">
@@ -133,21 +133,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<tbody>
 								<tr>
 									<td style="font-weight: bold;">订单号</td>
-									<td style="font-weight: bold;">买家名称</td>
 									<td style="font-weight: bold;">收货地址</td>
 									<td style="font-weight: bold;">订单日期</td>
 									<td style="font-weight: bold;">订单状态</td>
 									<td style="font-weight: bold;">操作</td>
 								</tr>
-								<c:forEach items="${sellerOrders }" var="order">
+								<c:forEach items="${userOrders }" var="order">
 									<tr>
 										<td><a href="javascript:doShowOrder('${order.oId}')" >${order.oId }</a></td>
-										<td>${order.sId }</td>
 										<td>${order.oAddress }</td>
 										<td>${order.orderDate }</td>
 										<td>${order.deliverStr }</td>
 										<td>
-											<a href="javascript:doUpdate('${order.oId}')" >发货</a>
+											<a href="javascript:doUpdate('${order.oId}')" >确认收货</a>
 											<a href="javascript:void(0)" onclick="doDelete('${order.oId}')">&nbsp;取消</a>
 										</td>
 									</tr>
@@ -163,19 +161,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="col-md-3 cart-total">
 					<a class="continue">订单管理</a>
 					<div class="price-details" style="text-align: center;">
-						<h3><a href="./WarehouseService?action=showSellerOrders">我的订单</a></h3>
+						<h3><a href="./WarehouseService?action=showUserOrders">我的订单</a></h3>
 						<div class="clearfix"></div>
 					</div>
 
 					<a class="order" href="#">商品管理</a>
 					<div class="price-details" style="text-align: center;">
-						<h3>
-							<a href="./WarehouseService?action=showSellerProducts">我的商品</a>
-						</h3>
+						<h3><a href="./WarehouseService?action=showSellerProducts">我的商品</a></h3>
 						<div class="clearfix"></div>
-						<h3>
-							<a href="./addProducts.jsp">添加商品</a>
-						</h3>
+						<h3><a href="./CartService?action=showallcartgoods">购物车</a></h3>
 						<div class="clearfix"></div>
 					</div>
 				</div>

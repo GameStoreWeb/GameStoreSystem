@@ -17,6 +17,7 @@
 <!-- Custom Theme files -->
 <!--theme-style-->
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/stylecart.css" rel='stylesheet' type='text/css' />
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -64,12 +65,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="line"></div>
 	<div class="header">
 		<div class="logo">
-			<a href="index.html"><img src="images/logo.png" alt=""></a>
+			<a href="./index.jsp"><img src="images/logo.png" alt=""></a>
 		</div>
 		<div class="header-top">
 			<div class="header-grid">
 				<ul class="header-in">
-					<li><a href="account.html">我的账号 </a></li>
+					<li><a href="userinfo.jsp">${username } </a></li>
+					<li><a href="./AccountService?action=logout">退出 </a></li>
 				</ul>
 				<div class="search-box">
 					<div id="sb-search" class="sb-search">
@@ -128,31 +130,37 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!---->
 	<div class="container">
 		<div class="single">
-			<div class="col-md-9 top-in-single">
+			<div class="col-md-9 top-in-single" style="float: left;">
 				<div class="container">
+				<h3 style="color: red;">我的资料</h3>
 					<div class="register">
 						<div class=" register-top">
-							<form>
+							<form action="./AccountService" name="seller_form" method="post">
 								<div>
-									<span>姓名</span> <input type="text">
+									<span>用户名</span> <input type="text" name="userName" disabled="disabled"
+										value="${user.uLoginName }">
 								</div>
 								<div>
-									<span>性别</span> <input type="password">
+									<span>姓名</span> <input type="text" name="name" disabled="disabled"
+										value="${user.uName }">
 								</div>
 								<div>
-									<span>电话</span> <input type="text">
+									<span>性别</span> <input type="text" name="sex" disabled="disabled"
+										value="${user.uSex }">
 								</div>
 								<div>
-									<span>收货地址</span> <input type="text">
+									<span>电话</span> <input type="text" name="telephone"
+										value="${user.uTelephone }">
 								</div>
 								<div>
-									<span>用户名</span> <input type="text">
-								</div>
-								<div>
-									<span>密码</span> <input type="text">
+									<span>密码</span> <input type="password" name="password"
+										value="${user.uPwd }">
 								</div>
 
 								<input type="submit" value="修改">
+								<input type="hidden" name="action" value="updateUser">
+								<input type="hidden" name="method" value="local"> <input
+									type="hidden" name="ID" value="${seller.sId }">
 							</form>
 						</div>
 					</div>
@@ -161,32 +169,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="clearfix"></div>
 
 			</div>
-			<div class="col-md-3">
-				<br />
-				<br />
-				<br />
-				<div class="single-bottom">
-					<h4>订单管理</h4>
-					<ul>
-						<li><br /> <label for="brand"><span></span> 查看订单</label></li>
-						<li><br /> <label for="brand1"><span></span>修改订单</label></li>
-						<li><br /> <label for="brand2"><span></span> 取消订单</label></li>
+			
+			<div class="col-md-3 cart-total">
+					<a class="continue">订单管理</a>
+					<div class="price-details" style="text-align: center;">
+						<h3><a href="./WarehouseService?action=showUserOrders">我的订单</a></h3>
+						<div class="clearfix"></div>
+					</div>
 
-					</ul>
+					<a class="order" href="#">商品管理</a>
+					<div class="price-details" style="text-align: center;">
+						<h3><a href="./WarehouseService?action=showSellerProducts">我的商品</a></h3>
+						<div class="clearfix"></div>
+						<h3><a href="./CartService?action=showallcartgoods">购物车</a></h3>
+						<div class="clearfix"></div>
+					</div>
 				</div>
-				<br />
-				<div class="single-bottom">
-					<h4>评论管理</h4>
-					<ul>
-						<li><br /> <label for="color"><span></span> 查看订单</label></li>
-						<li><br /> <label for="color1"><span></span> 修改订单</label></li>
-						<li><br /> <label for="color2"><span></span> 删除评论</label></li>
-
-
-					</ul>
-				</div>
-
-			</div>
 			<div class="clearfix"></div>
 		</div>
 	</div>

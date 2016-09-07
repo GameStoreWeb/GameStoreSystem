@@ -18,33 +18,14 @@
 <!-- Custom Theme files -->
 <!--theme-style-->
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-<link rel="stylesheet" type="text/css" href="css/style2.css" />
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords"
 	content="Sport Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 <script type="application/x-javascript">
-	
-	
-	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
-
-
-
-</script>
-<script type="text/javascript">
-		function doDelete(oid){
-			if(confirm("是否取消该订单?")){
-				location.href = "./WarehouseService?oid=" + oid + "&action=cancelOrder&method=1";
-			}
-		}
-		function doShowOrder(oid) {
-			location.href = "./WarehouseService?oid=" + oid + "&action=showUnitOrder&method=1";
-		}
-		function doUpdate(oid) {
-			location.href = "./WarehouseService?oid=" + oid + "&action=updateOrder";
-		}
 </script>
 <!--fonts-->
 <link
@@ -64,7 +45,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="header-top">
 			<div class="header-grid">
 				<ul class="header-in">
-					<li><a href="./sellerInfo.jsp">${seller.sName } </a></li>
+					<li><a href="./userinfo.jsp">${user.uLoginName } </a></li>
 					<li><a href="./AccountService?action=logout">退出 </a></li>
 				</ul>
 				<div class="search-box">
@@ -127,55 +108,71 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<div class="check_box">
 				<div class="col-md-9 cart-items">
-					<h1 style="color: red;">我的订单</h1>
-					<div class="right_content" style="overflow:hidden;">
-						<table id="rounded-corner">
-							<tbody>
-								<tr>
-									<td style="font-weight: bold;">订单号</td>
-									<td style="font-weight: bold;">买家名称</td>
-									<td style="font-weight: bold;">收货地址</td>
-									<td style="font-weight: bold;">订单日期</td>
-									<td style="font-weight: bold;">订单状态</td>
-									<td style="font-weight: bold;">操作</td>
-								</tr>
-								<c:forEach items="${sellerOrders }" var="order">
-									<tr>
-										<td><a href="javascript:doShowOrder('${order.oId}')" >${order.oId }</a></td>
-										<td>${order.sId }</td>
-										<td>${order.oAddress }</td>
-										<td>${order.orderDate }</td>
-										<td>${order.deliverStr }</td>
-										<td>
-											<a href="javascript:doUpdate('${order.oId}')" >发货</a>
-											<a href="javascript:void(0)" onclick="doDelete('${order.oId}')">&nbsp;取消</a>
-										</td>
-									</tr>
-								</c:forEach>
-							</tbody>
-						</table>
-						<br>
-					</div>
-
-
-
+					<h1 style="color: red;">订单号：${order.oId }</h1>
+					<ul class="qty">
+						<li><p>收货地址：${order.oAddress }</p></li>
+						<li><p>订单金额：${order.oTotal}</p></li>
+						<li><p>订单日期：${order.orderDate}</p></li>
+						<li><p>订单状态：${order.deliverStr}</p></li>
+						<%-- <c:choose>
+							<c:when test="${order.oIsDeliver == true }">
+								<li><p>订单状态：已发货</p></li>
+							</c:when>
+							<c:otherwise>
+								<li><p>订单状态：待发货</p></li>
+							</c:otherwise>
+						</c:choose> --%>
+					</ul><br>
+					<script>
+						$(document).ready(function(c) {
+							$('.close1').on('click', function(c) {
+								$('.cart-header').fadeOut('slow', function(c) {
+									$('.cart-header').remove();
+								});
+							});
+						});
+					</script>
+					<c:forEach items="${order.goodVos }" var="good">
+						<div class="cart-header" style="float: left;">
+							<div class="close1"></div>
+							<div class="cart-sec simpleCart_shelfItem">
+								<div class="cart-item cyc">
+									<img src="${good.goodsItem.gPicture[0]}" class="img-responsive" alt="">
+								</div>
+								<div class="cart-item-info" style="float: left;">
+									<h3>
+										<a href="#">${good.goodsItem.gName }</a>
+									</h3>
+									<ul class="qty">
+										<li><p>规格：${good.goodsItem.gStandard }</p></li>
+										<li><p>优惠：${good.goodsItem.gDiscount }</p></li>
+										<li><p>数量：${good.goodsQuantity}</p></li>
+										<!-- <li style="text-align: right;"><p>删除</p></li>
+										<li style="text-align: right;"><p>修改</p></li> -->
+									</ul>
+									<h5>${good.goodsItem.gDetail }</h5><br>
+									<p>单价 : ￥${good.goodsItem.gPrice }</p>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+						</div>
+					</c:forEach>
+					
+					
+					
 				</div>
 				<div class="col-md-3 cart-total">
 					<a class="continue">订单管理</a>
 					<div class="price-details" style="text-align: center;">
-						<h3><a href="./WarehouseService?action=showSellerOrders">我的订单</a></h3>
+						<h3><a href="./WarehouseService?action=showUserOrders">我的订单</a></h3>
 						<div class="clearfix"></div>
 					</div>
 
 					<a class="order" href="#">商品管理</a>
 					<div class="price-details" style="text-align: center;">
-						<h3>
-							<a href="./WarehouseService?action=showSellerProducts">我的商品</a>
-						</h3>
+						<h3><a href="./WarehouseService?action=showSellerProducts">我的商品</a></h3>
 						<div class="clearfix"></div>
-						<h3>
-							<a href="./addProducts.jsp">添加商品</a>
-						</h3>
+						<h3><a href="./CartService?action=showallcartgoods">购物车</a></h3>
 						<div class="clearfix"></div>
 					</div>
 				</div>

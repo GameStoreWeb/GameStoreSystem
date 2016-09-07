@@ -3,6 +3,8 @@ package com.gss.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.gss.commons.Utils;
+
 public class OrderVo {
 	private String oId;
 	private String sId;
@@ -38,6 +40,14 @@ public class OrderVo {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+	public String getSendDate(){
+		String dateString = Utils.date2String(oDeliverDate);
+		return dateString;
+	}
+	public String getOrderDate(){
+		String dateString = Utils.date2String(startDate);
+		return dateString;
+	}
 	public boolean isoIsTake() {
 		return oIsTake;
 	}
@@ -60,10 +70,14 @@ public class OrderVo {
 		return oIsDeliver;
 	}
 	public String getDeliverStr(){
-		if(oIsDeliver){
+		if(oIsDeliver && !oIsTake){
 			return "已发货";
-		}else if(oIsDeliver){
+		}else if(!oIsDeliver && !oIsTake){
 			return "待发货";
+		}else if (oIsDeliver && oIsTake) {
+			return "已收货";
+		}else if (!oIsDeliver && oIsTake) {
+			return "已取消";
 		}else{
 			return "未知状态";
 		}

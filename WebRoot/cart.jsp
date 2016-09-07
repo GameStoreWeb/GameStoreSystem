@@ -141,12 +141,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									</h3>
 									<ul class="qty">
 										<li><p>折扣 : ${varitems.goods.gDiscount}</p></li>
-										<li><p>数量 : ${varitems.goodsQuantity}</p></li>
+										<li><p >数量 : ${varitems.goodsQuantity}</p></li>
 									</ul>
 
 									<div class="delivery">
 										<span>
-										<a href="./CartService?action=addoneprodect&goodid=${varitems.goods.gId}"> 增加</a>
+										<a href="./CartService?action=addoneprodect&goodid=${varitems.goods.gId}" > 增加</a>
 										<a href="./CartService?action=suboneprodect&goodid=${varitems.goods.gId}"> 減少</a>
 										<a href="./CartService?action=deleteoneprodect&goodid=${varitems.goods.gId}"> 刪除</a>
 										</span>
@@ -186,7 +186,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 					<div class="clearfix"></div>
-					<a class="order" href="#">确认付款</a>
+					<a class="order" href="./WarehouseService?action=getOrderGoods">购买</a>
 					<div class="total-item">
 						<h3>申请会员</h3>
 						<h4>刮奖有礼</h4>

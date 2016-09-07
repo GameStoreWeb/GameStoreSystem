@@ -11,6 +11,7 @@ import com.gss.commons.JdbcUtils;
 import com.gss.dao.AccountManage;
 import com.gss.entity.Page;
 import com.gss.entity.Seller;
+import com.gss.entity.User;
 
 public class SellerLoginManageImpl implements AccountManage {
 
@@ -240,6 +241,12 @@ public class SellerLoginManageImpl implements AccountManage {
 		}
 		
 		return page;
+	}
+
+	@Override
+	public User getUserByName(String userName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

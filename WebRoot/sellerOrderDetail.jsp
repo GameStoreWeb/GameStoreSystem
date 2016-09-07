@@ -46,6 +46,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="header-grid">
 				<ul class="header-in">
 					<li><a href="./sellerInfo.jsp">${seller.sName } </a></li>
+					<li><a href="./AccountService?action=logout">退出 </a></li>
 				</ul>
 				<div class="search-box">
 					<div id="sb-search" class="sb-search">
@@ -112,7 +113,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<li><p>买家：${order.sId }</p></li>
 						<li><p>收货地址：${order.oAddress }</p></li>
 						<li><p>订单金额：${order.oTotal}</p></li>
-						<li><p>订单日期：${order.startDate}</p></li>
+						<li><p>订单日期：${order.orderDate}</p></li>
 						<li><p>订单状态：${order.deliverStr}</p></li>
 						<%-- <c:choose>
 							<c:when test="${order.oIsDeliver == true }">
@@ -122,7 +123,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<li><p>订单状态：待发货</p></li>
 							</c:otherwise>
 						</c:choose> --%>
-					</ul>
+					</ul><br>
 					<script>
 						$(document).ready(function(c) {
 							$('.close1').on('click', function(c) {

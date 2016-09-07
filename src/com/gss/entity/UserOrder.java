@@ -3,6 +3,8 @@ package com.gss.entity;
 import java.util.Date;
 import java.util.List;
 
+import com.gss.commons.Utils;
+
 /**
  * @author Joker
  * 用户订单类，包含以下属性：
@@ -70,6 +72,14 @@ public class UserOrder {
 	public Date getStartDate() {
 		return startDate;
 	}
+	public String getSendDate(){
+		String dateString = Utils.date2String(oDeliverDate);
+		return dateString;
+	}
+	public String getOrderDate(){
+		String dateString = Utils.date2String(startDate);
+		return dateString;
+	}
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
@@ -87,6 +97,19 @@ public class UserOrder {
 	}
 	public Date getoDeliverDate() {
 		return oDeliverDate;
+	}
+	public String getDeliverStr(){
+		if(oIsDeliver && !oIsTake){
+			return "已发货";
+		}else if(!oIsDeliver && !oIsTake){
+			return "待发货";
+		}else if (oIsDeliver && oIsTake) {
+			return "已收货";
+		}else if (!oIsDeliver && oIsTake) {
+			return "已取消";
+		}else{
+			return "未知状态";
+		}
 	}
 	public void setoDeliverDate(Date oDeliverDate) {
 		this.oDeliverDate = oDeliverDate;

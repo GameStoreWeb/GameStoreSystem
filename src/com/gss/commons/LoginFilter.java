@@ -29,7 +29,7 @@ public class LoginFilter implements Filter {
 	    HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 	    HttpSession session = httpRequest.getSession(true);
 
-	    String[] strs = {}; // 路径中包含这些字符串的,可以不用登录直接访问
+	    String[] strs = {"index"}; // 路径中包含这些字符串的,可以不用登录直接访问
 	    StringBuffer url = httpRequest.getRequestURL();
 	    
 	    /**

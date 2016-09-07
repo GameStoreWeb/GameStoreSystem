@@ -7,10 +7,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.gss.dao.CartManage;
 import com.gss.dao.impl.CartManageImpl;
 import com.gss.entity.Cart;
+import com.gss.entity.CartDetails;
+import com.gss.entity.User;
 
 public class CartService extends HttpServlet {
 
@@ -61,8 +64,10 @@ public class CartService extends HttpServlet {
 	
 	private void showallcartgoods(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
 		
-		String userid = "02016083101";  //´ýÐÞ¸Ä
+		String userid = user.getuId();  //´ýÐÞ¸Ä
 		
 		CartManage cm = new CartManageImpl();
 		Cart cart = cm.showAllCart(userid);
@@ -77,8 +82,9 @@ public class CartService extends HttpServlet {
 	
 	private void addOneProdect(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-		
-		String userid = "02016083101";  //´ýÐÞ¸Ä
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		String userid = user.getuId();  //´ýÐÞ¸Ä
 		String goodid = request.getParameter("goodid");
 		CartManage cm = new CartManageImpl();
 		cm.modifyGoods_in(Integer.valueOf(goodid), userid);
@@ -88,17 +94,29 @@ public class CartService extends HttpServlet {
 	private void suboneprodect(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		String userid = "02016083101";  //´ýÐÞ¸Ä
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		String userid = user.getuId();  //´ýÐÞ¸Ä
 		String goodid = request.getParameter("goodid");
 		CartManage cm = new CartManageImpl();
-		cm.modifyGoods_de(Integer.valueOf(goodid), userid);
-		request.getRequestDispatcher("./CartService?action=showallcartgoods").forward(request, response);
+		CartDetails details = cm.getCartDetailsById(userid, Integer.valueOf(goodid));
+		if(details.getQuantity()>1){
+			details.setQuantity(details.getQuantity()-1);
+			cm.updateCartDetails(details);
+			request.getRequestDispatcher("./CartService?action=showallcartgoods").forward(request, response);
+		}else{
+			request.setAttribute("goodid", goodid);
+			request.getRequestDispatcher("./CartService?action=deleteoneprodect").forward(request, response);
+		}
+		
 	}
 	
 	private void deleteoneprodect(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		String userid = "02016083101";  //´ýÐÞ¸Ä
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		String userid = user.getuId();  //´ýÐÞ¸Ä
 		String goodid = request.getParameter("goodid");
 		CartManage cm = new CartManageImpl();
 		cm.deleteGoods(Integer.valueOf(goodid), userid);
@@ -108,7 +126,9 @@ public class CartService extends HttpServlet {
 	private void addoneprodect(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		String userid = "02016083101";  //´ýÐÞ¸Ä
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		String userid = user.getuId();  //´ýÐÞ¸Ä
 		String goodid = request.getParameter("goodid");
 		CartManage cm = new CartManageImpl();
 		cm.addGoods(Integer.valueOf(goodid), userid,1);

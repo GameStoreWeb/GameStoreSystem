@@ -11,6 +11,7 @@ import com.gss.commons.JdbcUtils;
 import com.gss.dao.CartManage;
 import com.gss.dao.WarehouseManage;
 import com.gss.entity.Cart;
+import com.gss.entity.CartDetails;
 import com.gss.entity.CartGoods;
 import com.gss.entity.Goods;
 
@@ -118,7 +119,7 @@ public class CartManageImpl implements CartManage {
 		String cartNo = getCartId(userId);
 			
 		try {
-			String sql = "UPDATE cartdetails SET quantity = quantity+ ? WHERE cartNo = ? AND productNo=?";
+			String sql = "UPDATE cartdetails SET quantity = quantity- ? WHERE cartNo = ? AND productNo=?";
 			stat = conn.prepareStatement(sql);
 			stat.setInt(1, 1);
 			stat.setString(2, cartNo);
@@ -245,5 +246,77 @@ public class CartManageImpl implements CartManage {
 		return flag;
 	}
 
+	@Override
+	public CartDetails getCartDetailsById(String userId, int goodsId) {
+		Connection conn = null;
+		PreparedStatement stat = null;
+		conn = JdbcUtils.getConn();
+		ResultSet rs = null;
+		CartDetails cartDetails = new CartDetails();
+		try {
+			String sql = "select b.* from  cartdetails b  INNER JOIN shoppingcart c on c.cartNo = b.cartNo  WHERE c.customerNo = ?  and b.productNo = ? ";
+			stat = conn.prepareStatement(sql);
+			stat.setString(1, userId);
+			stat.setInt(2, goodsId);
+			rs = stat.executeQuery();
+			while (rs.next()) {
+				cartDetails.setId(rs.getInt("id"));
+				cartDetails.setCartNo(rs.getString("cartNo"));
+				cartDetails.setProductNo(rs.getInt("productNo"));
+				cartDetails.setQuantity(rs.getInt("quantity"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtils.closeDB(conn, stat, rs);
+		}
+
+		return cartDetails;
+	}
+
+	@Override
+	public void updateCartDetails(CartDetails cartDetails) {
+		Connection conn = null;
+		PreparedStatement stat = null;
+		conn = JdbcUtils.getConn();
+			
+		try {
+			String sql = "UPDATE cartdetails SET quantity = ?  WHERE id = ?";
+			stat = conn.prepareStatement(sql);
+			stat.setInt(1, cartDetails.getQuantity());
+			stat.setInt(2, cartDetails.getId());
+			stat.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally
+		{
+			JdbcUtils.closeDB(conn, stat, null);
+		}
+		
+	}
+
+	@Override
+	public void clearCart(String userId) {
+		// TODO Auto-generated method stub
+		Connection conn = null;
+		PreparedStatement stat = null;
+		conn = JdbcUtils.getConn();
+		String cartNo = getCartId(userId);
+			
+		try {
+			String sql = "DELETE FROM cartdetails WHERE cartNo = ?";
+			stat = conn.prepareStatement(sql);
+			stat.setString(1, cartNo);
+			stat.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally
+		{
+			JdbcUtils.closeDB(conn, stat, null);
+		}
+		
+	}
 
 }
