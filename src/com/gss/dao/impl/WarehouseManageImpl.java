@@ -1,6 +1,5 @@
 package com.gss.dao.impl;
 
-import java.security.interfaces.RSAKey;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gss.commons.JdbcUtils;
-import com.gss.commons.Utils;
 import com.gss.dao.AccountManage;
 import com.gss.dao.OrderManage;
 import com.gss.dao.WarehouseManage;
@@ -330,7 +328,7 @@ public class WarehouseManageImpl implements WarehouseManage {
 		connection = JdbcUtils.getConn();
 		
 		//更新订单内容，设置isDeliver=false，isTake=true表示订单已取消
-		String sql = "update order set hasSend = 0, hasReceive = 1 where orderNo = ?";
+		String sql = "update order1 set hasSend = 0, hasReceive = 1 where orderNo = ?";
 		try {
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, id);
@@ -346,10 +344,64 @@ public class WarehouseManageImpl implements WarehouseManage {
 	@Override
 	public List<UserOrder> showAllOrder(int id) {
 		
-		List<UserOrder> userorders= new ArrayList<UserOrder>();
-		OrderManage om = new OrderManageImpl();
-		userorders = om.showAllOrders(""+id);
-		return userorders;
+		List<UserOrder> sellerOrders = new ArrayList<UserOrder>();
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null;
+		
+		connection = JdbcUtils.getConn();
+		//查询订单表
+		String sql = "SELECT * from order1,product,orderdetails where order1.orderNo=orderdetails.orderNo and product.productNo=orderdetails.productNo and product.producerNo=?";
+		try {
+			statement = connection.prepareStatement(sql);
+			
+			statement.setInt(1, id);
+			rs = statement.executeQuery();
+			
+			while (rs.next()) {
+				UserOrder order = new UserOrder();
+				order.setoId(rs.getString("orderNo"));
+				order.setsId(rs.getString("customerNo"));
+				order.setoAddress(rs.getString("address"));
+				order.setStartDate(new java.util.Date(rs.getDate("orderdate").getTime()));
+				order.setoTotal(rs.getDouble("amount"));
+				order.setoDeliverDate(new java.util.Date(rs.getDate("sendDate").getTime()));
+				order.setoIsDeliver(rs.getBoolean("hasSend"));
+				order.setoIsTake(rs.getBoolean("hasReceive"));
+				
+				sellerOrders.add(order);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//查询订单详情
+		String sql2 = "select * from orderdetails where orderNo = ?";
+		try {
+			statement = connection.prepareStatement(sql2);
+			List<Goods> goods = new ArrayList<Goods>();
+			List<Integer> quantity = new ArrayList<Integer>();
+			for (UserOrder userOrder : sellerOrders) {
+				statement.setString(1, userOrder.getoId());
+				rs = statement.executeQuery();
+				
+				while (rs.next()) {
+					WarehouseManage wm = new WarehouseManageImpl();
+					Goods good = wm.findGoodsById(rs.getInt("productNo"));
+					goods.add(good);
+					quantity.add(rs.getInt("quantity"));
+				}
+				userOrder.setGoodsItem(goods);
+				userOrder.setGoodsQuantity(quantity);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			JdbcUtils.closeDB(connection, statement, rs);
+		}
+		return sellerOrders;
 	}
 	
 	/**

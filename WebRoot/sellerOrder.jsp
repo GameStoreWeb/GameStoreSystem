@@ -18,14 +18,30 @@
 <!-- Custom Theme files -->
 <!--theme-style-->
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" type="text/css" href="css/style2.css" />
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="keywords"
 	content="Sport Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 <script type="application/x-javascript">
+	
+	
+	
 	 addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } 
+
+
+
+</script>
+<script type="text/javascript">
+		function doDelete(){
+			if(confirm("是否取消该订单?")){
+				location.href = "./WarehouseService?oid=&action=cancelOrder";
+			}
+		}
+		function doShowOrder(oid) {
+			location.href = "./WarehouseService?oid=" + oid + "&action=showUnitOrder";
+		}
 </script>
 <!--fonts-->
 <link
@@ -107,8 +123,43 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<div class="check_box">
 				<div class="col-md-9 cart-items">
-					<h1 style="color: red;">我的商品</h1>
-					<script>
+					<h1 style="color: red;">我的订单</h1>
+					<div class="right_content" style="overflow:hidden;">
+						<table id="rounded-corner">
+							<tbody>
+								<tr>
+									<td style="font-weight: bold;">订单号</td>
+									<td style="font-weight: bold;">买家名称</td>
+									<td style="font-weight: bold;">收货地址</td>
+									<td style="font-weight: bold;">订单日期</td>
+									<td style="font-weight: bold;">订单状态</td>
+									<td style="font-weight: bold;">操作</td>
+								</tr>
+								<c:forEach items="${sellerOrders }" var="order">
+									<tr>
+										<td><a href="javascript:doShowOrder('${order.oId}')" >${order.oId }</a></td>
+										<td>${order.sId }</td>
+										<td>${order.oAddress }</td>
+										<td>${order.startDate }</td>
+										<c:choose>
+											<c:when test="${order.oIsDeliver == true }">
+												<td>已发货</td>
+											</c:when>
+											<c:otherwise>
+												<td>待发货</td>
+											</c:otherwise>
+										</c:choose>
+										<td>
+											<a href="javascript:doUpdate(${order.oId})">修改</a>
+											<a href="javascript:void(0)" onclick="doDelete()">&nbsp;取消订单</a>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+						<br>
+					</div>
+					<%-- <script>
 						$(document).ready(function(c) {
 							$('.close1').on('click', function(c) {
 								$('.cart-header').fadeOut('slow', function(c) {
@@ -117,22 +168,20 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							});
 						});
 					</script>
-					<c:forEach items="${goods }" var="good">
+					<c:forEach items="${sellerOrders }" var="order">
 						<div class="cart-header" style="float: left;">
 							<div class="close1"></div>
 							<div class="cart-sec simpleCart_shelfItem">
-								<div class="cart-item cyc">
-									<img src="${good.gPicture[0]}" class="img-responsive" alt="">
+								<div style="text-align: center; float: left;">
+									<a href="./WarehouseService?action=showUnitOrder">${order.oId }&nbsp;&nbsp;&nbsp;</a>
 								</div>
-								<div class="cart-item-info" style="float: left;">
+								<div style="float:right;">
 									<h3>
 										<a href="#">${good.gName }</a>
 									</h3>
 									<ul class="qty">
 										<li><p>规格：${good.gStandard }</p></li>
 										<li><p>优惠：${good.gDiscount }</p></li>
-										<!-- <li style="text-align: right;"><p>删除</p></li>
-										<li style="text-align: right;"><p>修改</p></li> -->
 									</ul>
 									<h5>${good.gDetail }</h5><br>
 									<p>单价 : ￥${good.gPrice }</p>
@@ -140,10 +189,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="clearfix"></div>
 							</div>
 						</div>
-					</c:forEach>
-					
-					
-					
+					</c:forEach> --%>
+
+
+
 				</div>
 				<div class="col-md-3 cart-total">
 					<a class="continue">订单管理</a>
@@ -154,9 +203,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 					<a class="order" href="#">商品管理</a>
 					<div class="price-details" style="text-align: center;">
-						<h3><a href="./WarehouseService?action=showSellerProducts">我的商品</a></h3>
+						<h3>
+							<a href="./WarehouseService?action=showSellerProducts">我的商品</a>
+						</h3>
 						<div class="clearfix"></div>
-						<h3><a href="./addProducts.jsp">添加商品</a></h3>
+						<h3>
+							<a href="./addProducts.jsp">添加商品</a>
+						</h3>
 						<div class="clearfix"></div>
 					</div>
 				</div>

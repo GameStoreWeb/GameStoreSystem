@@ -74,8 +74,8 @@ function hidePopup1(){   var popUp1 = document.getElementById("popupcontent1"); 
 							<td>${seller.sAddress }</td>
 							<td>${seller.sPhone }</td>
 							<td>
-								<a href="javascript:doUpdate(${seller.sId })">修改</a>
-								<a href="javascript:doDelete(${seller.sId });">删除</a>
+								<a href="javascript:doUpdate('${seller.sId }')">修改</a>
+								<a href="javascript:doDelete(${seller.sId })">删除</a>
 							</td>
 						</tr>
 					</c:forEach>

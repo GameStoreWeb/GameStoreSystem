@@ -8,13 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.gss.commons.JdbcUtils;
-import com.gss.dao.AccountManage;
 import com.gss.dao.CartManage;
 import com.gss.dao.WarehouseManage;
 import com.gss.entity.Cart;
 import com.gss.entity.CartGoods;
 import com.gss.entity.Goods;
-import com.gss.entity.Seller;
 
 
 public class CartManageImpl implements CartManage {

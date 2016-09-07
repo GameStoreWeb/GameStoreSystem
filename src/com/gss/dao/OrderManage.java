@@ -23,7 +23,7 @@ public interface OrderManage {
 	 * @param orderId
 	 * @return
 	 */
-	public UserOrder showUnitOrder(String id, String orderId);
+	public UserOrder showUnitOrder(String orderId);
 	/**
 	 * È¡Ïû¶©µ¥
 	 * @param id

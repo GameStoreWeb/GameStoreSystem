@@ -1,7 +1,6 @@
 package com.gss.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,10 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.gss.dao.OrderManage;
 import com.gss.dao.WarehouseManage;
+import com.gss.dao.impl.OrderManageImpl;
 import com.gss.dao.impl.WarehouseManageImpl;
+import com.gss.entity.GoodVo;
 import com.gss.entity.Goods;
+import com.gss.entity.OrderVo;
 import com.gss.entity.Seller;
+import com.gss.entity.UserOrder;
 
 public class WarehouseService extends HttpServlet {
 
@@ -67,6 +71,10 @@ public class WarehouseService extends HttpServlet {
 			showSellerProducts(request, response);
 		}else if ("addProducts".equals(action)) {
 			addProducts(request, response);
+		}else if ("showSellerOrders".equals(action)) {
+			showSellerOrders(request, response);
+		}else if ("showUnitOrder".equals(action)) {
+			showUnitOrder(request, response);
 		}
 	}
 
@@ -118,6 +126,46 @@ public class WarehouseService extends HttpServlet {
 		
 		session.setAttribute("good", good);
 		request.getRequestDispatcher("./WarehouseService?action=showSellerProducts").forward(request, response);
+	}
+	
+	public void showSellerOrders(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
+		Seller seller = (Seller)session.getAttribute("seller");
+		List<UserOrder> sellerOrders = new ArrayList<UserOrder>();
+		
+		WarehouseManage wm = new WarehouseManageImpl();
+		sellerOrders = wm.showAllOrder(seller.getsId());
+//		System.out.println(sellerOrders);
+//		session.setAttribute("sellerOrders", sellerOrders);
+		request.setAttribute("sellerOrders", sellerOrders);
+		request.getRequestDispatcher("./sellerOrder.jsp").forward(request, response);
+	}
+	
+	public void showUnitOrder(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		
+		UserOrder order = new UserOrder();
+		OrderManage om = new OrderManageImpl();
+		String oid = request.getParameter("oid");
+		order = om.showUnitOrder(oid);
+		
+		OrderVo orderVo = null;
+		List<GoodVo> list = new ArrayList<GoodVo>();
+		for(int i=0; i<order.getGoodsItem().size(); i++){
+			GoodVo goodVo = new GoodVo(order.getGoodsItem().get(i), order.getGoodsQuantity().get(i));
+			list.add(goodVo);
+		}
+		orderVo = new OrderVo(order.getoId(), order.getsId(), order.getoAddress(), order.getStartDate(), order.isoIsTake(), order.getoTotal(), order.getoDeliverDate(), order.isoIsDeliver(), list);
+		session.setAttribute("order", orderVo);
+//		System.out.println(order);
+//		request.setAttribute("order", order);
+		
+		request.getRequestDispatcher("./sellerOrderDetail.jsp").forward(request, response);
+		
 	}
 
 }

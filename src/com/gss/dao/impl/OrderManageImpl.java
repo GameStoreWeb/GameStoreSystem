@@ -29,7 +29,7 @@ public class OrderManageImpl implements OrderManage {
 		String num = null;
 		
 		connection = JdbcUtils.getConn();
-		String sql = "select orderNo from order";
+		String sql = "select orderNo from order1";
 		
 		try {
 			statement = connection.prepareStatement(sql);
@@ -57,7 +57,7 @@ public class OrderManageImpl implements OrderManage {
 		}
 		
 		//添加新订单
-		String sql2 = "insert into oder values(?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql2 = "insert into order1 values(?, ?, ?, ?, ?, ?, ?, ?)";
 		try {
 			statement = connection.prepareStatement(sql2);
 
@@ -107,7 +107,7 @@ public class OrderManageImpl implements OrderManage {
 		
 		connection = JdbcUtils.getConn();
 		//查询订单表
-		String sql = "select * from order where customerNo = ?";
+		String sql = "select * from order1 where customerNo = ?";
 		try {
 			statement = connection.prepareStatement(sql);
 			
@@ -161,7 +161,7 @@ public class OrderManageImpl implements OrderManage {
 	}
 
 	@Override
-	public UserOrder showUnitOrder(String id, String orderId) {
+	public UserOrder showUnitOrder(String orderId) {
 		// TODO Auto-generated method stub
 		UserOrder order = new UserOrder();
 		Connection connection = null;
@@ -170,11 +170,11 @@ public class OrderManageImpl implements OrderManage {
 		
 		connection = JdbcUtils.getConn();
 		//查询订单表
-		String sql = "select * from order where customerNo = ?";
+		String sql = "select * from order1 where orderNo = ?";
 		try {
 			statement = connection.prepareStatement(sql);
 			
-			statement.setString(1, id);
+			statement.setString(1, orderId);
 			rs = statement.executeQuery();
 			
 			while (rs.next()) {
@@ -228,7 +228,7 @@ public class OrderManageImpl implements OrderManage {
 		connection = JdbcUtils.getConn();
 		
 		//更新订单内容，设置isDeliver=false，isTake=true表示订单已取消
-		String sql = "update order set hasSend = 0, hasReceive = 1 where orderNo = ? and customerNo = ?";
+		String sql = "update order1 set hasSend = 0, hasReceive = 1 where orderNo = ? and customerNo = ?";
 		try {
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, orderId);
@@ -273,7 +273,7 @@ public class OrderManageImpl implements OrderManage {
 		
 		OrderManage om = new OrderManageImpl();
 		for (String string : list) {
-			UserOrder order = (UserOrder)om.showUnitOrder(id, string);
+			UserOrder order = (UserOrder)om.showUnitOrder(string);
 			userOrders.add(order);
 		}
 		return userOrders;

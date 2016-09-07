@@ -107,7 +107,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<div class="check_box">
 				<div class="col-md-9 cart-items">
-					<h1 style="color: red;">我的商品</h1>
+					<h1 style="color: red;">订单号：${order.oId }</h1>
+					<ul class="qty">
+						<li><p>买家：${order.sId }</p></li>
+						<li><p>收货地址：${order.oAddress }</p></li>
+						<li><p>订单金额：${order.oTotal}</p></li>
+						<li><p>订单日期：${order.startDate}</p></li>
+						<li><p>订单状态：${order.deliverStr}</p></li>
+						<%-- <c:choose>
+							<c:when test="${order.oIsDeliver == true }">
+								<li><p>订单状态：已发货</p></li>
+							</c:when>
+							<c:otherwise>
+								<li><p>订单状态：待发货</p></li>
+							</c:otherwise>
+						</c:choose> --%>
+					</ul>
 					<script>
 						$(document).ready(function(c) {
 							$('.close1').on('click', function(c) {
@@ -117,25 +132,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							});
 						});
 					</script>
-					<c:forEach items="${goods }" var="good">
+					<c:forEach items="${order.goodVos }" var="good">
 						<div class="cart-header" style="float: left;">
 							<div class="close1"></div>
 							<div class="cart-sec simpleCart_shelfItem">
 								<div class="cart-item cyc">
-									<img src="${good.gPicture[0]}" class="img-responsive" alt="">
+									<img src="${good.goodsItem.gPicture[0]}" class="img-responsive" alt="">
 								</div>
 								<div class="cart-item-info" style="float: left;">
 									<h3>
-										<a href="#">${good.gName }</a>
+										<a href="#">${good.goodsItem.gName }</a>
 									</h3>
 									<ul class="qty">
-										<li><p>规格：${good.gStandard }</p></li>
-										<li><p>优惠：${good.gDiscount }</p></li>
+										<li><p>规格：${good.goodsItem.gStandard }</p></li>
+										<li><p>优惠：${good.goodsItem.gDiscount }</p></li>
+										<li><p>数量：${good.goodsQuantity}</p></li>
 										<!-- <li style="text-align: right;"><p>删除</p></li>
 										<li style="text-align: right;"><p>修改</p></li> -->
 									</ul>
-									<h5>${good.gDetail }</h5><br>
-									<p>单价 : ￥${good.gPrice }</p>
+									<h5>${good.goodsItem.gDetail }</h5><br>
+									<p>单价 : ￥${good.goodsItem.gPrice }</p>
 								</div>
 								<div class="clearfix"></div>
 							</div>

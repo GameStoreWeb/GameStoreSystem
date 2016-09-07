@@ -168,11 +168,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="col-md-3 cart-total">
 					<a class="continue">订单管理</a>
 					<div class="price-details" style="text-align: center;">
-						<h3>我的订单</h3>
-						<div class="clearfix"></div>
-						<h3>修改订单</h3>
-						<div class="clearfix"></div>
-						<h3>取消订单</h3>
+						<h3><a href="./WarehouseService?action=showSellerOrders">我的订单</a></h3>
 						<div class="clearfix"></div>
 					</div>
 
